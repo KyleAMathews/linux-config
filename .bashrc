@@ -102,7 +102,8 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-# This wasn't working for some reason by default.
-source /etc/bash_completion.d/git
+PS1='\u@\h \W$(__git_ps1 " (%s)")\$ '
 
-PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
+GIT_PS1_SHOWDIRTYSTATE=1
+GIT_PS1_SHOWSTASHSTATE=1
+GIT_PS1_SHOWUPSTREAM="auto"
