@@ -101,7 +101,7 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
-
+source /etc/bash_completion.d/git
 PS1='\u@\h \W$(__git_ps1 " (%s)")\$ '
 
 GIT_PS1_SHOWDIRTYSTATE=1
