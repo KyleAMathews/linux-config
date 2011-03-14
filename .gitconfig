@@ -8,8 +8,8 @@
 [push]
 	default = tracking
 [alias]
-	lol = log --pretty=oneline --abbrev-commit --graph --decorate
-	unstage = reset HEAD
+  lol = log --pretty=oneline --abbrev-commit --graph --decorate
+  unstage = reset HEAD
   st = status
   ci = commit -v
   lc = log ORIG_HEAD.. --stat --no-merges
