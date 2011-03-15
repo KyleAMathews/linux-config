@@ -107,3 +107,8 @@ PS1='\u@\h \W$(__git_ps1 " (%s)")\$ '
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWSTASHSTATE=1
 GIT_PS1_SHOWUPSTREAM="auto"
+
+# Add Gem to the PATH
+export PATH=/var/lib/gems/1.8/bin:$PATH
+
+. /opt/z/z.sh
