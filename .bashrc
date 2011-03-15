@@ -102,11 +102,15 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 source /etc/bash_completion.d/git
-PS1='\u@\h \W$(__git_ps1 " (%s)")\$ '
 
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWSTASHSTATE=1
+GIT_PS1_SHOWUNTRACKEDFILES=1
 GIT_PS1_SHOWUPSTREAM="auto"
+
+PS1='\[\e[1;32m\]$(__git_ps1 " (%s)")\[\e[m\]'
+PS1="\[\e[1;36m\]\h:\W\[\e[m\]$PS1\[\e[1;36m\]$ \[\e[m\]"
+export PS1
 
 # Add Gem to the PATH
 export PATH=/var/lib/gems/1.8/bin:$PATH
