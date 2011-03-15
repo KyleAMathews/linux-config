@@ -1,12 +1,12 @@
 [user]
-	name = Kyle Mathews
-	email = mathews.kyle@gmail.com
+  name = Kyle Mathews
+  email = mathews.kyle@gmail.com
 [color]
-	diff = auto
-	status = auto
-	branch = auto
+  diff = auto
+  status = auto
+  branch = auto
 [push]
-	default = tracking
+  default = tracking
 [alias]
   lol = log --pretty=oneline --abbrev-commit --graph --decorate
   unstage = reset HEAD
