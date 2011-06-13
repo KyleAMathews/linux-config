@@ -103,6 +103,9 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 source /etc/bash_completion.d/git
 
+# Alias g as git
+alias g='git'
+
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWSTASHSTATE=1
 GIT_PS1_SHOWUNTRACKEDFILES=1
@@ -116,3 +119,5 @@ export PS1
 export PATH=/var/lib/gems/1.8/bin:$PATH
 
 . /opt/z/z.sh
+
+alias ack='ack-grep'
