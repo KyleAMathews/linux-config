@@ -1,0 +1,4 @@
+color tango
+
+" Php, php3, php4, etc.
+au BufNewFile,BufRead *.{module,install} set filetype=drupal | runtime! ftplugin/php.vim | runtime! syntax/php.vim
