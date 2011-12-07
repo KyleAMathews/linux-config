@@ -2,3 +2,71 @@ color tango
 
 " Php, php3, php4, etc.
 au BufNewFile,BufRead *.{module,install} set filetype=php.drupal | runtime! ftplugin/php.vim | runtime! syntax/php.vim
+
+" Show a colored column at 85 characters.
+set colorcolumn=85
+
+" Save file automatically when lose focus
+au FocusLost * :wa
+
+" Strip all trailing whitespace in the current file
+nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
+
+" Map jj to <ESC> to make it easier to move to normal mode
+inoremap jj <ESC>
+
+" Make it easier to work with split windows
+
+" Open a new vertical split and switch to it
+nnoremap <leader>w <C-w>v<C-w>l
+
+" Map Ctrl plus normal navigation keys to move around splits
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nnoremap <C-=> <C-w>=
+
+" Mapping for using Ack
+nnoremap <leader>a :Ack
+
+" Get Ack to work
+let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+
+" Fold tag function
+nnoremap <leader>ft vatzf
+
+" Create an undo file for each file edited.
+set undofile
+
+" Clear out search
+nnoremap <leader><space> :noh<cr>
+
+" Make Tab work for switching between matching bracket pairs
+nnoremap <tab> %
+vnoremap <tab> %
+
+" Open up this file in a new vertical split window
+nnoremap <leader>vc <C-w><C-v><C-l>:e ~/.vimrc.local<cr>
+
+" Make moving between tabs sane
+map tl :tabnext<CR>
+map th :tabprev<CR>
+map tn :tabnew<CR>
+map td :tabclose<CR>
+
+" Map ; to :
+nnoremap ; :
+
+" Remove 'flashing' in GVIM
+set novb
+
+" Bindings for Tagbar
+let g:tagbar_usearrows = 1
+nnoremap <leader>l :TagbarToggle<CR>
+
+" Bind leader-u to open a terminal window in a new split window.
+nnoremap <leader>u :ConqueTerm bash --login<CR>
+
+" Bind leader-r to reformat a paragraph when in writing mode.
+nnoremap <leader>r gqap<CR>
