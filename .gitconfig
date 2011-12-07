@@ -31,3 +31,5 @@
   da = diff HEAD
   da2 = diff HEAD^
 	wtf = !git-wtf
+[core]
+	excludesfile = ~/.gitignore_global
