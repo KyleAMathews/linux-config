@@ -73,3 +73,11 @@ nnoremap <leader>u :ConqueTerm bash --login<CR>
 
 " Bind leader-r to reformat a paragraph when in writing mode.
 nnoremap <leader>r gqap<CR>
+
+" double percentage sign in command mode is expanded
+" to directory of current file - http://vimcasts.org/e/14
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+
+" Overide binding for Command-T so it'll be faster
+map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
+map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
