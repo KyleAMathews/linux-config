@@ -20,6 +20,9 @@ inoremap jj <ESC>
 " Open a new vertical split and switch to it
 nnoremap <leader>w <C-w>v<C-w>l
 
+" Open a new horizontal split and switch to it
+nnoremap <leader>h <C-w>s<C-w>l
+
 " Map Ctrl plus normal navigation keys to move around splits
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
