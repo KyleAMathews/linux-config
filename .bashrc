@@ -120,7 +120,6 @@ export PATH=/var/lib/gems/1.8/bin:$PATH
 
 . /opt/z/z.sh
 
-alias ack='ack-grep'
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 alias grp='grep -rInP'
