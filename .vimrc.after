@@ -34,10 +34,10 @@ nnoremap <C-l> <C-w>l
 nnoremap <C-=> <C-w>=
 
 " Mapping for using Ack
-nnoremap <leader>a :Ack
+"nnoremap <leader>a :Ack
 
 " Get Ack to work
-let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+"let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 
 " Fold tag function
 nnoremap <leader>ft vatzf
