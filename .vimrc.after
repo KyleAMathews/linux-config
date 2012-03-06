@@ -84,3 +84,13 @@ cnoremap %% <C-R>=expand('%:h').'/'<cr>
 " Overide binding for Command-T so it'll be faster
 map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
 map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
+
+" Set the font to Consolas on windows and Inconsolata every else.
+" Code from http://stackoverflow.com/questions/3316244/set-gvim-font-in-vimrc-file
+if has("gui_running")
+  if has("gui_gtk2")
+    set guifont=Inconsolata\ 12
+  elseif has("gui_win32")
+    set guifont=Consolas:h11:cANSI
+  endif
+endif
