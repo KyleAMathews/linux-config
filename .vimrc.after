@@ -81,9 +81,8 @@ nnoremap <leader>r gqap<CR>
 " to directory of current file - http://vimcasts.org/e/14
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
 
-" Overide binding for Command-T so it'll be faster
-map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
-map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
+" Binding for buffer search using buffer search by CtrlP
+:nmap <C-o> :CtrlPBuffer<CR>
 
 " Set the font to Consolas on windows and Inconsolata every else.
 " Code from http://stackoverflow.com/questions/3316244/set-gvim-font-in-vimrc-file
@@ -130,3 +129,5 @@ endfunction
 
 " Start the find and replace command across the entire file
 vmap <leader>z <Esc>:%s/<c-r>=GetVisual()<cr>/
+
+set clipboard=unnamed
