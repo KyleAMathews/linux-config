@@ -28,9 +28,9 @@
   tasks:
     - include: tasks/macosx.yml
 
-- hosts: Debian
-  tasks:
-    - include: tasks/debian.yml
+#- hosts: Debian
+  #tasks:
+    #- include: tasks/debian.yml
 
 - hosts: RedHat
   tasks:
