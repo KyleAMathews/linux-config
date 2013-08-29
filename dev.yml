@@ -5,35 +5,23 @@
 # This playbook deploys the dotfiles and utilities that I like to have around while
 # developing.
 - name: copy all dotfiles to the home directory and install commonly used utilities
-  hosts: all
+  # Have to run localhost seperate from other servers as need to ask for password
+  # locally but not remote and ansible can't handle this use case yet.
+  #hosts: localhost
+  hosts: all:!localhost
 
   vars:
     username: kyle
 
   tasks:
-    - name: install .bash_profile
-      action: template src=templates/bash_profile dest=~/.bash_profile
-      tags: dotfile
+    - include: tasks/dotfiles.yml
 
-    - name: install .bashrc
-      action: template src=templates/bashrc dest=~/.bashrc
-      tags: dotfile
-
-    - name: install .gitconfig
-      action: template src=templates/gitconfig dest=~/.gitconfig
-      tags: dotfile
-
-    - name: install .ackrc
-      action: template src=templates/ackrc dest=~/.ackrc
-      tags: dotfile
-
-    - name: install .vimrc files
-      action: template src=templates/vimrc.after dest=~/.vimrc.after
-      action: template src=templates/vimrc.before dest=~/.vimrc.before
-      tags: dotfile
-
-    - name: install git auto-complete library
-      get_url: url=https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh dest=~/.git-prompt.sh
+    - name: install z, a quick jump utility
+      git: repo=https://github.com/rupa/z.git dest=/usr/local/z
+      tags:
+        - z
+        - install
+      sudo: yes
 
     # TODO split os into seperate files and load conditionally.
     # for macs, install download git prompt file and source it in bashrc file

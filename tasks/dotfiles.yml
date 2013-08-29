@@ -1,0 +1,23 @@
+- name: install .bash_profile
+  action: template src=templates/bash_profile dest=~/.bash_profile
+  tags: dotfile
+
+- name: install .bashrc
+  action: template src=templates/bashrc dest=~/.bashrc
+  tags: dotfile
+
+- name: install .gitconfig
+  action: template src=templates/gitconfig dest=~/.gitconfig
+  tags: dotfile
+
+- name: install .ackrc
+  action: template src=templates/ackrc dest=~/.ackrc
+  tags: dotfile
+
+- name: install .vimrc files
+  action: template src=templates/vimrc.after dest=~/.vimrc.after
+  action: template src=templates/vimrc.before dest=~/.vimrc.before
+  tags: dotfile
+
+- name: install git auto-complete library
+  get_url: url=https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh dest=~/.git-prompt.sh
