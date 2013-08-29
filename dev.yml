@@ -1,0 +1,22 @@
+---
+# This playbook deploys the dotfiles and utilities that I like to have around while
+# developing.
+- name: copy all dotfiles to the home directory and install commonly used utilities
+  hosts: all
+
+  vars:
+    username: kyle
+
+  tasks:
+    - name: install .bashrc
+      action: template src=templates/bashrc dest=~/.bashrc
+
+    - name: install .gitconfig
+      action: template src=templates/gitconfig dest=~/.gitconfig
+
+    - name: install .ackrc
+      action: template src=templates/ackrc dest=~/.ackrc
+
+    - name: install .vimrc files
+      action: template src=templates/vimrc.after dest=~/.vimrc.after
+      action: template src=templates/vimrc.before dest=~/.vimrc.before

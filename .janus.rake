@@ -1,7 +1,0 @@
-vim_plugin_task "Drupal-vim-snippets", "git://github.com/theunraveler/Drupal-Snippets-for-Vim.git"
-vim_plugin_task "Stylus-support", "git://github.com/wavded/vim-stylus.git"
-vim_plugin_task "delimitMate", "git://github.com/Raimondi/delimitMate.git"
-vim_plugin_task "tagbar", "git://github.com/majutsushi/tagbar.git"
-vim_plugin_task "vim-css-color", "git://github.com/skammer/vim-css-color.git"
-vim_plugin_task "Vimroom", "git://github.com/mikewest/vimroom.git"
-vim_plugin_task "html.vim", "http://www.vim.org/scripts/download_script.php?src_id=16921"

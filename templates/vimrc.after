@@ -1,13 +1,17 @@
-let g:solarized_termcolors=256
 set t_Co=16
 set background=dark
-colorscheme solarized
+colorscheme desert
 
 " Php, php3, php4, etc.
 au BufNewFile,BufRead *.{module,install} set filetype=php.drupal | runtime! ftplugin/php.vim | runtime! syntax/php.vim
 
 " Show a colored column at 85 characters.
 set colorcolumn=85
+
+" The normal backup pattern vim uses (move file to backup location then
+" rewrite latest version) breaks Brunch as it thinks the file has been
+" deleted. So copy to overwrite the backup file not move.
+ set backupcopy=yes
 
 " Save file automatically when lose focus
 au FocusLost * :wa
@@ -34,10 +38,10 @@ nnoremap <C-l> <C-w>l
 nnoremap <C-=> <C-w>=
 
 " Mapping for using Ack
-"nnoremap <leader>a :Ack
+nnoremap <leader>a :Ack
 
 " Get Ack to work
-"let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+let g:ackprg = 'ag --nogroup --nocolor --column'
 
 " Fold tag function
 nnoremap <leader>ft vatzf
