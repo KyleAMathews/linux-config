@@ -1,6 +1,5 @@
 - name: install common utilities on Mac OSX
   homebrew: name={{ item }} state=present
-  when: ansible_os_family == "Darwin"
   tags: install
   with_items:
     - macvim

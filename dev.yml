@@ -10,11 +10,12 @@
   #hosts: localhost
   hosts: all:!localhost
 
-  vars:
-    username: kyle
 
   tasks:
+    - name: create group by operating system
+      action: group_by key={{ansible_os_family}}
     - include: tasks/dotfiles.yml
+    - include: tasks/nodejs_utilities.yml
 
     - name: install z, a quick jump utility
       git: repo=https://github.com/rupa/z.git dest=/usr/local/z
@@ -23,14 +24,14 @@
         - install
       sudo: yes
 
-    # TODO split os into seperate files and load conditionally.
-    # for macs, install download git prompt file and source it in bashrc file
-    # per http://stackoverflow.com/questions/12870928/mac-bash-git-ps1-command-not-found
+- hosts: Darwin
+  tasks:
     - include: tasks/macosx.yml
-      when: ansible_os_family == "Darwin"
 
+- hosts: Debian
+  tasks:
     - include: tasks/debian.yml
-      when: ansible_os_family == "Debian"
 
+- hosts: RedHat
+  tasks:
     - include: tasks/redhat.yml
-      when: ansible_os_family == "RedHat"
