@@ -4,3 +4,4 @@
   tags: install
   with_items:
     - rubygems
+    - silversearcher-ag

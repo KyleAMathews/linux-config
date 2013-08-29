@@ -6,4 +6,4 @@
       - xz-devel
       - tmux
 
-#- include: the_silver_searcher.yml
+- include: the_silver_searcher_from_source.yml
