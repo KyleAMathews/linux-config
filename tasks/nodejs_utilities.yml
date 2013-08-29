@@ -1,0 +1,7 @@
+- name: Install Node.js utilities
+  npm: name={{ item }} global=yes
+  sudo: yes
+  with_items:
+    - coffee-script
+    - jsonlint
+    - jshint
