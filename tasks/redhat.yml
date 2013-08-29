@@ -1,0 +1,9 @@
+- name: install common utilities on Fedora machines
+  when: ansible_os_family == "RedHat"
+  yum: name={{ item }} state=present
+  tags: install
+  with_items:
+      - xz-devel
+      - tmux
+
+#- include: the_silver_searcher.yml

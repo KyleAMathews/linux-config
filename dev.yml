@@ -1,3 +1,6 @@
+# Todo create playbooks for installing npm utilities
+# like jshint, jsonlint checker, coffee-script
+# same with ruby gems like teamocil
 ---
 # This playbook deploys the dotfiles and utilities that I like to have around while
 # developing.
@@ -10,16 +13,36 @@
   tasks:
     - name: install .bash_profile
       action: template src=templates/bash_profile dest=~/.bash_profile
+      tags: dotfile
 
     - name: install .bashrc
       action: template src=templates/bashrc dest=~/.bashrc
+      tags: dotfile
 
     - name: install .gitconfig
       action: template src=templates/gitconfig dest=~/.gitconfig
+      tags: dotfile
 
     - name: install .ackrc
       action: template src=templates/ackrc dest=~/.ackrc
+      tags: dotfile
 
     - name: install .vimrc files
       action: template src=templates/vimrc.after dest=~/.vimrc.after
       action: template src=templates/vimrc.before dest=~/.vimrc.before
+      tags: dotfile
+
+    - name: install git auto-complete library
+      get_url: url=https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh dest=~/.git-prompt.sh
+
+    # TODO split os into seperate files and load conditionally.
+    # for macs, install download git prompt file and source it in bashrc file
+    # per http://stackoverflow.com/questions/12870928/mac-bash-git-ps1-command-not-found
+    - include: tasks/macosx.yml
+      when: ansible_os_family == "Darwin"
+
+    - include: tasks/debian.yml
+      when: ansible_os_family == "Debian"
+
+    - include: tasks/redhat.yml
+      when: ansible_os_family == "RedHat"

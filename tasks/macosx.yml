@@ -1,0 +1,17 @@
+- name: install common utilities on Mac OSX
+  homebrew: name={{ item }} state=present
+  when: ansible_os_family == "Darwin"
+  tags: install
+  with_items:
+    - macvim
+    - meld
+    - mysql
+    - mongodb
+    - the_silver_searcher
+    - tmux
+    - wget
+    - redis
+    - git
+    - ssh-copy-id
+    - htop-osx
+    - nmap
