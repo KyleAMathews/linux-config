@@ -8,6 +8,9 @@
     username: kyle
 
   tasks:
+    - name: install .bash_profile
+      action: template src=templates/bash_profile dest=~/.bash_profile
+
     - name: install .bashrc
       action: template src=templates/bashrc dest=~/.bashrc
 
