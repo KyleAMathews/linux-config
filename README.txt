@@ -1,1 +1,1 @@
-Various config files I've created for my Linux dev box.
+Install my dotfiles and common utilities on the different machines I work on.
