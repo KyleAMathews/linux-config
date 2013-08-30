@@ -14,9 +14,12 @@
   action: template src=templates/ackrc dest=~/.ackrc
   tags: dotfile
 
-- name: install .vimrc files
-  action: template src=templates/vimrc.after dest=~/.vimrc.after
+- name: install .vimrc.before
   action: template src=templates/vimrc.before dest=~/.vimrc.before
+  tags: dotfile
+
+- name: install .vimrc.after
+  action: template src=templates/vimrc.after dest=~/.vimrc.after
   tags: dotfile
 
 - name: install git auto-complete library

@@ -1,0 +1,11 @@
+- name: See if Janus vim is installed.
+  shell: "[ -d ~/.vim ] && echo 'Found' || echo ''"
+  register: janus_installed
+  tags: vim
+- name: install the Janus vim distro
+  git: repo=https://github.com/carlhuda/janus.git dest=~/.vim
+  when: (not janus_installed.stdout)
+  tags: vim
+- name: run rake inside the .vim directory to update Janus
+  command: rake chdir=~/.vim
+  tags: vim
