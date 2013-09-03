@@ -14,3 +14,4 @@
     - ssh-copy-id
     - htop-osx
     - nmap
+    - mosh

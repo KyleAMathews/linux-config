@@ -4,5 +4,6 @@
   with_items:
       - xz-devel
       - tmux
+      - mosh
 
 - include: the_silver_searcher_from_source.yml
