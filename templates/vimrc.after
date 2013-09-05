@@ -139,3 +139,6 @@ set clipboard=unnamed
 " Ignore node_modules directories and others
 unlet g:ctrlp_custom_ignore
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
+
+" Set folding for coffeescript files.
+au BufNewFile,BufReadPost *.coffee setl foldmethod=indent nofoldenable
