@@ -20,6 +20,7 @@
     - include: tasks/nodejs_utilities.yml
     - include: tasks/ruby_gem_utilities.yml
     - include: tasks/vim.yml
+    - include: tasks/git_extras.yml
 
     - name: install z, a quick jump utility
       git: repo=https://github.com/rupa/z.git dest=/usr/local/z

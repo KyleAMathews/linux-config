@@ -1,0 +1,10 @@
+- name: See if Git Extras is installed and updated
+  shell: '[ "$(git extras -v)" = 1.9.0 ] && echo "Found" || echo ""'
+  register: git_extras_installed
+- name: Clone the Git Extras repo
+  git: repo=https://github.com/visionmedia/git-extras.git dest=/tmp/git-extras
+  when: (not git_extras_installed.stdout)
+- name: Build Git Extras
+  command: make install chdir=/tmp/git-extras
+  when: (not git_extras_installed.stdout)
+  sudo: yes

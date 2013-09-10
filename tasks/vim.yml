@@ -9,3 +9,4 @@
 - name: run rake inside the .vim directory to update Janus
   command: rake chdir=~/.vim
   tags: vim
+  ignore_errors: true
