@@ -10,3 +10,6 @@
   command: rake chdir=~/.vim
   tags: vim
   ignore_errors: true
+- name: Install vim-airline, a status/tabline for Vim
+  git: repo=https://github.com/bling/vim-airline.git dest=~/.janus/vim-airline
+  tags: vim
