@@ -8,7 +8,8 @@
   # Have to run localhost seperate from other servers as need to ask for password
   # locally but not remote and ansible can't handle this use case yet.
   #hosts: localhost
-  hosts: all:!localhost
+  #hosts: all:!localhost
+  hosts: vagrant
 
 
   tasks:
@@ -33,9 +34,9 @@
   tasks:
     - include: tasks/macosx.yml
 
-#- hosts: Debian
-  #tasks:
-    #- include: tasks/debian.yml
+- hosts: Debian
+  tasks:
+    - include: tasks/debian.yml
 
 - hosts: RedHat
   tasks:
