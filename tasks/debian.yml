@@ -1,8 +1,31 @@
 - name: install common utilities on Debian machines
   apt: pkg={{ item }} state=present update_cache=yes
   tags: install
+  sudo: yes
   with_items:
     - rubygems
-    - silversearcher-ag
     - mosh
     - vim
+    - python-pycurl # Needed to add repos
+    - rake
+    - git
+
+##
+# node.js installation (latest stable instead of Ubuntu's out-of-date one)
+#
+- name: Node.js | Package prerequisites for node.js
+  action: apt pkg=python-software-properties state=installed
+  sudo: yes
+  tags: nodejs
+
+- name: Node.js | Add the node.js PPA
+  action: command add-apt-repository -y ppa:chris-lea/node.js creates=/etc/apt/sources.list.d/chris-lea-node_js-precise.list
+  sudo: yes
+  tags: nodejs
+
+- name: Node.js | Install nodejs and npm
+  apt: pkg={{ item }} state=present update_cache=yes
+  sudo: yes
+  tags: nodejs
+  with_items:
+    - nodejs
