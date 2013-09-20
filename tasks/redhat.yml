@@ -6,5 +6,6 @@
       - tmux
       - mosh
       - vim-enhanced
+      - smem
 
 - include: the_silver_searcher_from_source.yml
