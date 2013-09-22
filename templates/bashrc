@@ -121,4 +121,7 @@ source /usr/local/z/z.sh
 
 alias grp='grep -rInP'
 
-export ANSIBLE_HOSTS=~/ansible_hosts
+export ANSIBLE_HOSTS=~/.ansible_hosts
+
+# Alias smem with common prefixes
+alias mem='smem -r -k'
