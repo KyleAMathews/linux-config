@@ -9,35 +9,40 @@
   # locally but not remote and ansible can't handle this use case yet.
   #hosts: localhost
   #hosts: all:!localhost
-  hosts: vagrant
-
+  hosts: onebox
 
   tasks:
     - name: create group by operating system
       action: group_by key={{ansible_os_family}}
 
-    # Install things common across different OSs
+- hosts: Darwin
+  tasks:
+    - include: tasks/macosx.yml
     - include: tasks/dotfiles.yml
     - include: tasks/nodejs_utilities.yml
     - include: tasks/ruby_gem_utilities.yml
     - include: tasks/vim.yml
     - include: tasks/git_extras.yml
-
-    - name: install z, a quick jump utility
-      git: repo=https://github.com/rupa/z.git dest=/usr/local/z
-      tags:
-        - z
-        - install
-      sudo: yes
-
-- hosts: Darwin
-  tasks:
-    - include: tasks/macosx.yml
+    - include: tasks/utilities.yml
 
 - hosts: Debian
   tasks:
     - include: tasks/debian.yml
+    - include: tasks/dotfiles.yml
+    - include: tasks/nodejs_utilities.yml
+    - include: tasks/ruby_gem_utilities.yml
+    - include: tasks/vim.yml
+    - include: tasks/git_extras.yml
+    - include: tasks/utilities.yml
+    - include: tasks/the_silver_searcher_from_source.yml
 
 - hosts: RedHat
   tasks:
     - include: tasks/redhat.yml
+    - include: tasks/dotfiles.yml
+    - include: tasks/nodejs_utilities.yml
+    - include: tasks/ruby_gem_utilities.yml
+    - include: tasks/vim.yml
+    - include: tasks/git_extras.yml
+    - include: tasks/utilities.yml
+    - include: tasks/the_silver_searcher_from_source.yml

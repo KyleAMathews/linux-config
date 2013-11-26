@@ -1,3 +1,6 @@
+- name: Update all packages to the latest version
+  apt: upgrade=dist
+
 - name: install common utilities on Debian machines
   apt: pkg={{ item }} state=present update_cache=yes
   tags: install
@@ -9,16 +12,22 @@
     - python-pycurl # Needed to add repos
     - rake
     - git
+    - ruby1.9.1
+    - build-essential
+    - checkinstall
+    - software-properties-common
+    - python-software-properties
+    - tmux
     - smem # Tool that does good job of figuring out "real" memory use of processes
+    - automake
+    - pkg-config # The follow four packages are needed for compiling the_silver_searcher
+    - libpcre3-dev
+    - zlib1g-dev
+    - liblzma-dev
 
 ##
 # node.js installation (latest stable instead of Ubuntu's out-of-date one)
 #
-- name: Node.js | Package prerequisites for node.js
-  action: apt pkg=python-software-properties state=installed
-  sudo: yes
-  tags: nodejs
-
 - name: Node.js | Add the node.js PPA
   action: command add-apt-repository -y ppa:chris-lea/node.js creates=/etc/apt/sources.list.d/chris-lea-node_js-precise.list
   sudo: yes

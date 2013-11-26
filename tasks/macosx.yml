@@ -1,6 +1,6 @@
 - name: install common utilities on Mac OSX
   homebrew: name={{ item }} state=present
-  tags: install
+  tags: install macosx
   with_items:
     - macvim
     - meld
@@ -16,3 +16,4 @@
     - nmap
     - mosh
     - watch
+    - node
