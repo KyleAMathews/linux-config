@@ -1,6 +1,7 @@
 - name: install common utilities on Mac OSX
   homebrew: name={{ item }} state=present
   tags: install macosx
+  ignore_errors: true
   with_items:
     - macvim
     - meld
@@ -17,3 +18,8 @@
     - mosh
     - watch
     - node
+    - brew-cask
+
+- name: install quicklook plugins—https://github.com/sindresorhus/quick-look-plugins
+  ignore_errors: true
+  command: brew cask install qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch quicklook-csv betterzipql webp-quicklook suspicious-package && qlmanage -r --force
