@@ -5,3 +5,4 @@
     - coffee-script
     - jsonlint
     - jshint
+    - jshintreact # Patch jshint so it works with JSX files.

@@ -16,3 +16,6 @@
 - name: Add syntax highlighting for eco—a coffeescript template language
   git: repo=https://github.com/AndrewRadev/vim-eco.git dest=~/.janus/vim-eco
   tags: vim
+- name: Add syntax highlighting for JSX, the facebook js/xml markup language for React.
+  git: repo=https://github.com/mxw/vim-jsx.git dest=~/.janus/vim-jsx
+  tags: vim
