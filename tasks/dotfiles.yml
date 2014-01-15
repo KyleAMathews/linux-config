@@ -28,3 +28,7 @@
 
 - name: install git auto-complete library
   get_url: url=https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh dest=~/.git-prompt.sh
+
+- name: install .inputrc
+  action: template src=templates/inputrc dest=~/.inputrc
+  tags: dotfile
