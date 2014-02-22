@@ -33,4 +33,3 @@
 
 - name: Download iterm2 color scheme for solarized
   get_url: url=https://github.com/altercation/solarized/raw/master/iterm2-colors-solarized/Solarized%20Dark.itermcolors  dest=~/Downloads
-  tags: test
