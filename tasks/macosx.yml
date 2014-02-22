@@ -24,6 +24,5 @@
     - node
     - brew-cask
 
-- name: install quicklook plugins—https://github.com/sindresorhus/quick-look-plugins
-  ignore_errors: true
-  command: brew cask install qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch quicklook-csv betterzipql webp-quicklook suspicious-package && qlmanage -r --force
+- name: Install the inconsolata font—a very nice monospace font.
+  get_url: url=http://levien.com/type/myfonts/Inconsolata.otf dest=/Library/Fonts/Inconsolata.otf
