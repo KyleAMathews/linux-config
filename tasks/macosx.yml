@@ -26,3 +26,8 @@
 
 - name: Install the inconsolata font—a very nice monospace font.
   get_url: url=http://levien.com/type/myfonts/Inconsolata.otf dest=/Library/Fonts/Inconsolata.otf
+
+- name: Speedup the default keyboard repeat rates
+  command: defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
+
+- command: defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
