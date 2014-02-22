@@ -4,6 +4,7 @@ applications:
   - android-file-transfer
   - dropbox
   - firefox
+  - flash
   - gimp
   - google-chrome
   - google-chrome-canary
@@ -17,6 +18,7 @@ applications:
   - light-table
   - limechat
   - lyx
+  - silverlight
   - spotify
   - sublime-text
   - rstudio # R IDE
