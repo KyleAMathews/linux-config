@@ -19,3 +19,6 @@
 - name: Add syntax highlighting for JSX, the facebook js/xml markup language for React.
   git: repo=https://github.com/mxw/vim-jsx.git dest=~/.janus/vim-jsx
   tags: vim
+- name: Add the solarized theme
+  git: repo=https://github.com/altercation/vim-colors-solarized dest=~/.janus/vim-solarized
+  tags: vim

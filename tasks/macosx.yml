@@ -1,6 +1,5 @@
 - name: Install Brew Cask and XQuartz, necessary dependencies for several homebrew recipes
   shell: brew tap phinze/cask; brew tap caskroom/versions;  brew install brew-cask; brew cask install xquartz
-  tags: test
 
 - name: install common utilities on Mac OSX
   homebrew: name={{ item }} state=present
@@ -31,3 +30,7 @@
   command: defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
 
 - command: defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
+
+- name: Download iterm2 color scheme for solarized
+  get_url: url=https://github.com/altercation/solarized/raw/master/iterm2-colors-solarized/Solarized%20Dark.itermcolors  dest=~/Downloads
+  tags: test
