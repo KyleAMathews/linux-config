@@ -14,10 +14,14 @@
   tasks:
     - name: create group by operating system
       action: group_by key={{ansible_os_family}}
+      tags: test
 
 - hosts: Darwin
+  vars_files:
+    - vars/mac_apps.yml
   tasks:
     - include: tasks/macosx.yml
+    - include: tasks/mac_brew_cask.yml
     - include: tasks/dotfiles.yml
     - include: tasks/nodejs_utilities.yml
     - include: tasks/ruby_gem_utilities.yml

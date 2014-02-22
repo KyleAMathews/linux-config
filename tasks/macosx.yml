@@ -1,3 +1,7 @@
+- name: Install Brew Cask and XQuartz, necessary dependencies for several homebrew recipes
+  shell: brew tap phinze/cask; brew tap caskroom/versions;  brew install brew-cask; brew cask install xquartz
+  tags: test
+
 - name: install common utilities on Mac OSX
   homebrew: name={{ item }} state=present
   tags: install macosx
