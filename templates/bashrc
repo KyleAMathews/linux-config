@@ -125,3 +125,6 @@ export ANSIBLE_HOSTS=~/.ansible_hosts
 
 # Alias smem with common prefixes
 alias mem='smem -r -k'
+
+# Load binaries from /usr/local/bin first (e.g. homebrew packages)
+export PATH=/usr/local/bin:$PATH
