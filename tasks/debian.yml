@@ -7,6 +7,7 @@
   sudo: yes
   with_items:
     - rubygems
+    - exuberant-ctags
     - mosh
     - vim
     - python-pycurl # Needed to add repos
