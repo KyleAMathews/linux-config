@@ -133,3 +133,6 @@ export PATH=/usr/local/bin:$PATH
 if [ -d "$HOME/bin" ]; then
   PATH="$HOME/bin:$PATH"
 fi
+
+# Set default editor
+export EDITOR=vim
