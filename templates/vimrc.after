@@ -134,8 +134,6 @@ endfunction
 " Start the find and replace command across the entire file
 vmap <leader>z <Esc>:%s/<c-r>=GetVisual()<cr>/
 
-set clipboard=unnamed
-
 " Ignore node_modules directories and others
 unlet g:ctrlp_custom_ignore
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
