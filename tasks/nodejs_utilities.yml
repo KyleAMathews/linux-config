@@ -7,4 +7,3 @@
     - jshint
     #- jshintreact # Patch jshint so it works with JSX files.
     - js-yaml
->>>>>>> c9aa905d22956f109e83ba7cc895c7f84bc7d70e
