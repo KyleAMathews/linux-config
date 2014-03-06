@@ -1,6 +1,3 @@
-# Todo create playbooks for installing npm utilities
-# like jshint, jsonlint checker, coffee-script
-# same with ruby gems like teamocil
 ---
 # This playbook deploys the dotfiles and utilities that I like to have around while
 # developing.
@@ -16,8 +13,11 @@
       action: group_by key={{ansible_os_family}}
 
 - hosts: Darwin
+  vars_files:
+    - vars/mac_apps.yml
   tasks:
     - include: tasks/macosx.yml
+    - include: tasks/mac_brew_cask.yml
     - include: tasks/dotfiles.yml
     - include: tasks/nodejs_utilities.yml
     - include: tasks/ruby_gem_utilities.yml

@@ -5,6 +5,7 @@
   with_items:
       - xz-devel
       - tmux
+      - ctags
       - mosh
       - vim-enhanced
       - smem

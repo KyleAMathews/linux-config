@@ -125,3 +125,14 @@ export ANSIBLE_HOSTS=~/.ansible_hosts
 
 # Alias smem with common prefixes
 alias mem='smem -r -k'
+
+# Load binaries from /usr/local/bin first (e.g. homebrew packages)
+export PATH=/usr/local/bin:$PATH
+
+# set PATH so it includes my private bin if it exists
+if [ -d "$HOME/bin" ]; then
+  PATH="$HOME/bin:$PATH"
+fi
+
+# Set default editor
+export EDITOR=vim

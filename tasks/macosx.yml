@@ -1,9 +1,13 @@
+- name: Install Brew Cask and XQuartz, necessary dependencies for several homebrew recipes
+  shell: brew tap phinze/cask; brew tap caskroom/versions;  brew install brew-cask; brew cask install xquartz
+
 - name: install common utilities on Mac OSX
   homebrew: name={{ item }} state=present
   tags: install macosx
   ignore_errors: true
   with_items:
     - macvim
+    - ctags
     - meld
     - mysql
     - mongodb
@@ -20,6 +24,13 @@
     - node
     - brew-cask
 
-- name: install quicklook plugins—https://github.com/sindresorhus/quick-look-plugins
-  ignore_errors: true
-  command: brew cask install qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch quicklook-csv betterzipql webp-quicklook suspicious-package && qlmanage -r --force
+- name: Install the inconsolata font—a very nice monospace font.
+  get_url: url=http://levien.com/type/myfonts/Inconsolata.otf dest=/Library/Fonts/Inconsolata.otf
+
+- name: Speedup the default keyboard repeat rates
+  command: defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
+
+- command: defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
+
+- name: Download iterm2 color scheme for solarized
+  get_url: url=https://github.com/altercation/solarized/raw/master/iterm2-colors-solarized/Solarized%20Dark.itermcolors  dest=~/Downloads
