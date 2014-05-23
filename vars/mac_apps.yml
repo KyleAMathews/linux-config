@@ -2,6 +2,7 @@ applications:
   - alfred # Better launcher
   - adobe-reader
   - android-file-transfer
+  - coreutils
   - dropbox
   - evernote
   - firefox
