@@ -6,14 +6,14 @@
   tags: install
   sudo: yes
   with_items:
-    - rubygems
+    - ruby2.0
+    - ruby2.0-dev
     - exuberant-ctags
     - mosh
     - vim
     - python-pycurl # Needed to add repos
     - rake
     - git
-    - ruby1.9.1
     - python-pip
     - build-essential
     - checkinstall
@@ -26,6 +26,20 @@
     - libpcre3-dev
     - zlib1g-dev
     - liblzma-dev
+
+- name: Symlink exists for Ruby 2.0
+  file: src=/usr/bin/ruby2.0 dest=/usr/local/bin/ruby state=link
+
+- name: Symlink exists for Ruby Gems 2.0
+  file: src=/usr/bin/gem2.0 dest=/usr/local/bin/gem state=link
+
+- name: Making Ruby 2.0 the default one
+  command: update-alternatives --set ruby /usr/bin/ruby2.0
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version != '14.04'
+
+- name: Making Gem 2.0 the default one
+  command: update-alternatives --set gem /usr/bin/gem2.0
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version != '14.04'
 
 ##
 # node.js installation (latest stable instead of Ubuntu's out-of-date one)
