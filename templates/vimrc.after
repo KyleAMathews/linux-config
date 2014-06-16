@@ -2,8 +2,10 @@ set t_Co=16
 set background=dark
 colorscheme desert
 
+" Filetypes
 " Php, php3, php4, etc.
 au BufNewFile,BufRead *.{module,install} set filetype=php.drupal | runtime! ftplugin/php.vim | runtime! syntax/php.vim
+au BufRead,BufNewFile *.cjsx set filetype=coffee
 
 " Show a colored column at 85 characters.
 set colorcolumn=85
