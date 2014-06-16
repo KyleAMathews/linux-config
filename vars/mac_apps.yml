@@ -38,3 +38,4 @@ applications:
   - betterzipql
   - webp-quicklook
   - suspicious-package
+  - vagrant-manager
