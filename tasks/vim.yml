@@ -22,3 +22,6 @@
 - name: Add the solarized theme
   git: repo=https://github.com/altercation/vim-colors-solarized dest=~/.janus/vim-solarized
   tags: vim
+- name: Add syntax highlighting for cjsx — Coffeescript JSX
+  git: repo=https://github.com/mtscout6/vim-cjsx.git dest=~/.janus/vim-cjsx
+  tags: vim
