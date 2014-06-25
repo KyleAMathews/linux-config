@@ -22,6 +22,7 @@
     - mosh
     - watch
     - node
+    - coreutils
     - brew-cask
 
 - name: Install the inconsolata font—a very nice monospace font.
