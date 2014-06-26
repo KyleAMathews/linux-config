@@ -7,3 +7,4 @@
     - jshint
     #- jshintreact # Patch jshint so it works with JSX files.
     - js-yaml
+    - fixpack # Cleanup package.json https://github.com/HenrikJoreteg/fixpack
