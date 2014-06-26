@@ -1,0 +1,3 @@
+- name: Install HTTPie
+  pip: name=httpie
+  sudo: true

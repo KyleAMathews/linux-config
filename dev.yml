@@ -11,6 +11,7 @@
   tasks:
     - name: create group by operating system
       action: group_by key={{ansible_os_family}}
+      tags: testing
 
 - hosts: Darwin
   vars_files:
@@ -24,6 +25,7 @@
     - include: tasks/vim.yml
     - include: tasks/git_extras.yml
     - include: tasks/utilities.yml
+    - include: tasks/python_utilities.yml
 
 - hosts: Debian
   tasks:
@@ -35,6 +37,7 @@
     - include: tasks/git_extras.yml
     - include: tasks/utilities.yml
     - include: tasks/the_silver_searcher_from_source.yml
+    - include: tasks/python_utilities.yml
 
 - hosts: RedHat
   tasks:
@@ -46,3 +49,4 @@
     - include: tasks/git_extras.yml
     - include: tasks/utilities.yml
     - include: tasks/the_silver_searcher_from_source.yml
+    - include: tasks/python_utilities.yml
