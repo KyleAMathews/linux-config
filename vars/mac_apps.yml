@@ -38,3 +38,4 @@ applications:
   - webp-quicklook
   - suspicious-package
   - vagrant-manager
+  - skitch
