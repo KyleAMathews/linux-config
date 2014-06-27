@@ -1,5 +1,6 @@
-- name: Install Ruby Gem utilities
-  gem: name={{ item }} state=latest
+- name: Install Bundler
+  command: bash -lc "gem install bundler"
   sudo: yes
-  with_items:
-    - teamocil
+- name: Install Teamocil
+  command: bash -lc "gem install teamocil"
+  sudo: yes
