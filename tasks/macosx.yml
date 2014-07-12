@@ -1,5 +1,8 @@
-- name: Install Brew Cask and XQuartz, necessary dependencies for several homebrew recipes
-  shell: brew tap phinze/cask; brew tap caskroom/versions;  brew install brew-cask; brew cask install xquartz
+- name: Tap various Brew Casks
+  homebrew_tap: tap=homebrew/dupes,homebrew/science,caskroom/cask state=present
+  
+- name: Install xQuartz, necessary dependency for several homebrew recipes
+  homebrew_cask: name=xquartz state=present
 
 - name: install common utilities on Mac OSX
   homebrew: name={{ item }} state=present
