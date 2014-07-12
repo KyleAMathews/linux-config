@@ -6,7 +6,6 @@
   tags: install macosx
   ignore_errors: true
   with_items:
-    - macvim
     - ctags
     - meld
     - mysql
@@ -26,6 +25,12 @@
     - brew-cask
     - fontforge
     - ttfautohint
+    
+- name: Install Vim
+  homebrew: name=vim install_options=override-system-vi
+  
+- name: Install MacVim
+  homebrew: name=macvim install_options=override-system-vim
 
 - name: Install the inconsolata font—a very nice monospace font.
   get_url: url=http://levien.com/type/myfonts/Inconsolata.otf dest=/Library/Fonts/Inconsolata.otf
