@@ -1,10 +1,14 @@
 - name: Tap various Brew Casks
   homebrew_tap: tap=homebrew/dupes,homebrew/science,caskroom/cask state=present
-  
+
 - name: Install xQuartz, necessary dependency for several homebrew recipes
   homebrew_cask: name=xquartz state=present
 
-- name: install common utilities on Mac OSX
+#- name: Update Homebrew and Upgrade all homebrew packages
+  #homebrew: update_homebrew=yes upgrade_all=yes
+  # Not working, fix in master - https://github.com/ansible/ansible/issues/7924
+
+- name: install common utilities on Mac OSX with homebrew
   homebrew: name={{ item }} state=present
   tags: install macosx
   ignore_errors: true
@@ -28,24 +32,84 @@
     - brew-cask
     - fontforge
     - ttfautohint
-    
+
 - name: Install Vim
   homebrew: name=vim install_options=override-system-vi
+
+- name: Install binaries with Homebrew cask
+  homebrew_cask: name={{ item }} state=present
+  tags: install macosx
+  ignore_errors: true
+  with_items:
+    - alfred # Better launcher
+    - adobe-reader
+    - android-file-transfer
+    - dropbox
+    - evernote
+    - firefox
+    - flash
+    - flux
+    - gimp
+    - google-chrome
+    - google-chrome-canary
+    - google-hangouts
+    - hipchat
+    - heroku-toolbelt
+    - inkscape
+    - iterm2
+    - keepassx
+    - kindle
+    - lighttable
+    - limechat
+    - lyx
+    - silverlight
+    - spotify
+    - sublime-text
+    - rstudio # R IDE
+    - vagrant
+    - virtualbox
+    - vlc
+    - wireshark
+    - qlcolorcode # This and the following are quicklook plugins
+    - qlstephen
+    - qlmarkdown
+    - quicklook-json
+    - qlprettypatch
+    - quicklook-csv
+    - betterzipql
+    - webp-quicklook
+    - suspicious-package
+    - vagrant-manager
+    - skitch
+
+- name: Enable quicklook plugins (which just got installed)
+  command: qlmanage -r
 
 - name: Install the inconsolata font—a very nice monospace font.
   get_url: url=http://levien.com/type/myfonts/Inconsolata.otf dest=/Library/Fonts/Inconsolata.otf
 
+# System settings, many from https://github.com/mathiasbynens/dotfiles/blob/master/.osx
 - name: Speedup the default keyboard repeat rates
   command: defaults write -g InitialKeyRepeat -int 15 # normal minimum is 15 (225 ms)
 
 - command: defaults write -g KeyRepeat -int 2 # normal minimum is 2 (30 ms)
 
+- name: Disable the “Are you sure you want to open this application?” dialog
+  command: defaults write com.apple.LaunchServices LSQuarantine -bool false
+
+- name: Automatically hide and show the Dock
+  command: defaults write com.apple.dock autohide -bool true
+
+- name: Trackpad — enable tap to click for this user and for the login screen
+  command: defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+- command: defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+- command: defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+
 - name: Download iterm2 color scheme for solarized
   get_url: url=https://github.com/altercation/solarized/raw/master/iterm2-colors-solarized/Solarized%20Dark.itermcolors  dest=~/Downloads
 
-- name: Install pip with easy_install
-  command: sudo easy_install pip
-  sudo: true
+- name: Increase sound quality for Bluetooth headphones/headsets
+  command: defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
 
 - name: Install pip with easy_install
   command: sudo easy_install pip
