@@ -18,3 +18,9 @@ localhost              ansible_connection=local
 ## Macs
 Install Homebrew manually and then run `brew install ansible` to get
 Ansible working. Then clone this repo, create a ~/.ansible_hosts file, and run the above command.
+
+### Manual post-install steps
+
+* Import iterm2 solarized theme from the downloads folder
+* Set iterm2 font to inconsolata 13pt
+* Copy ssh keys
