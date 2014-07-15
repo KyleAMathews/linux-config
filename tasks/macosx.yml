@@ -62,6 +62,7 @@
     - lighttable
     - limechat
     - lyx
+    - ngrok
     - silverlight
     - spotify
     - sublime-text
@@ -81,6 +82,7 @@
     - suspicious-package
     - vagrant-manager
     - skitch
+    - skype
 
 - name: Enable quicklook plugins (which just got installed)
   command: qlmanage -r
