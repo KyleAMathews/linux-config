@@ -9,3 +9,5 @@
     - js-yaml
     - fixpack # Cleanup package.json https://github.com/HenrikJoreteg/fixpack
     - cult # tool for running gulpfiles written in coffeescript
+    - gulp
+    - lev # CLI tool for LevelDB
