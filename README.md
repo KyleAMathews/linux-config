@@ -24,6 +24,6 @@ Ansible working. Then clone this repo, create a ~/.ansible_hosts file, and run t
 * Import iterm2 solarized theme from the downloads folder
 * Set iterm2 font to inconsolata 13pt
 * Copy ssh keys
-* run `brew cask alfred link` — this could probably be added to ansible... check next time.
-* Set terminal scrollback to unlimited
+* run `brew cask alfred link`
+* Set iterm2 scrollback to unlimited
 * Up ULIMIT
