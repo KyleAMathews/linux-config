@@ -11,3 +11,4 @@
     - cult # tool for running gulpfiles written in coffeescript
     - gulp
     - lev # CLI tool for LevelDB
+    - vtop # Nice looking top replacement written in node.js
