@@ -1,3 +1,7 @@
 - name: Install HTTPie
   pip: name=httpie
   sudo: true
+
+- name: Install fig, a Docker tool
+  pip: name=fig
+  sudo: true
