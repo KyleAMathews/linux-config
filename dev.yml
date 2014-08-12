@@ -4,9 +4,8 @@
 - name: copy all dotfiles to the home directory and install commonly used utilities
   # Have to run localhost seperate from other servers as need to ask for password
   # locally but not remote and ansible can't handle this use case yet.
-  hosts: localhost
-  #hosts: all:!localhost
-  #hosts: onebox
+  #hosts: localhost
+  hosts: all:!localhost
 
   tasks:
     - name: create group by operating system
@@ -14,8 +13,6 @@
       tags: testing
 
 - hosts: Darwin
-  vars_files:
-    - vars/mac_apps.yml
   tasks:
     - include: tasks/macosx.yml
     - include: tasks/dotfiles.yml
