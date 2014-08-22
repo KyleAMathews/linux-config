@@ -27,3 +27,11 @@ Ansible working. Then clone this repo, create a ~/.ansible_hosts file, and run t
 * run `brew cask alfred link`
 * Set iterm2 scrollback to unlimited
 * Up ULIMIT
+
+## Docker image
+My dotfiles + config + Ubuntu are now a Docker image!
+
+To run it with your ssh port forwarding:
+
+`docker run -rm -t -i -v $(dirname $SSH_AUTH_SOCK):$(dirname
+$SSH_AUTH_SOCK) -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK kyma/dev-image bash`
