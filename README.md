@@ -29,7 +29,7 @@ Ansible working. Then clone this repo, create a ~/.ansible_hosts file, and run t
 * Up ULIMIT
 
 ## Docker image
-My dotfiles + config + Ubuntu are now a Docker image!
+These dotfiles + config + Ubuntu are now a Docker image!
 
 To run it with your ssh port forwarding:
 
