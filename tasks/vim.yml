@@ -25,3 +25,6 @@
 - name: Add syntax highlighting for cjsx — Coffeescript JSX
   git: repo=https://github.com/mtscout6/vim-cjsx.git dest=~/.janus/vim-cjsx
   tags: vim
+- name: Add syntax highlighting for Docker
+  git: repo=https://github.com/ekalinin/Dockerfile.vim.git dest=~/.janus/vim-dockerfile
+  tags: vim
