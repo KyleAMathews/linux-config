@@ -28,3 +28,6 @@
 - name: Add syntax highlighting for Docker
   git: repo=https://github.com/ekalinin/Dockerfile.vim.git dest=~/.janus/vim-dockerfile
   tags: vim
+- name: Add syntax highlighting for JSX
+  git: repo=https://github.com/mxw/vim-jsx.git dest=~/.janus/vim-jsx
+  tags: vim
