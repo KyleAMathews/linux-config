@@ -10,10 +10,11 @@
     - fixpack # Cleanup package.json https://github.com/HenrikJoreteg/fixpack
     - cult # tool for running gulpfiles written in coffeescript
     - gulp
-    - lev # CLI tool for LevelDB
     - vtop # Nice looking top replacement written in node.js
     - hicat # cat with syntax highlighting
     - updatehammer # Force update modules in package.json
     - eslint
     - babel-eslint
     - eslint-plugin-react
+    - coffeelint # Lint coffeescript code
+    - jsfmt # Format javascript code

@@ -7,6 +7,7 @@
   tags: install
   sudo: yes
   with_items:
+    - curl
     - ruby2.0
     - ruby2.0-dev
     - exuberant-ctags
