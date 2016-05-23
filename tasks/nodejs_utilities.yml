@@ -4,17 +4,12 @@
   with_items:
     - coffee-script
     - jsonlint
-    - jshint
-    #- jshintreact # Patch jshint so it works with JSX files.
     - js-yaml
     - fixpack # Cleanup package.json https://github.com/HenrikJoreteg/fixpack
-    - cult # tool for running gulpfiles written in coffeescript
-    - gulp
     - vtop # Nice looking top replacement written in node.js
     - hicat # cat with syntax highlighting
-    - updatehammer # Force update modules in package.json
+    - npm-check # Force update modules in package.json
     - eslint
     - babel-eslint
     - eslint-plugin-react
     - coffeelint # Lint coffeescript code
-    - jsfmt # Format javascript code
