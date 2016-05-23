@@ -30,8 +30,8 @@
 ##
 # node.js installation (latest stable instead of Ubuntu's out-of-date one)
 #
-- name: Node.js | Add the node.js PPA
-  action: command add-apt-repository -y ppa:chris-lea/node.js creates=/etc/apt/sources.list.d/chris-lea-node_js-precise.list
+- name: Node.js | Run the debian setup.
+  shell: "curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -"
   sudo: yes
   tags: nodejs
 
