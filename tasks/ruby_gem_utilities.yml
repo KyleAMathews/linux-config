@@ -1,6 +1,0 @@
-- name: Install Bundler
-  command: bash -lc "gem install bundler"
-  sudo: yes
-- name: Install Teamocil
-  command: bash -lc "gem install teamocil"
-  sudo: yes

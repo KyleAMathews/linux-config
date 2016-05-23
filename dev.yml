@@ -4,8 +4,8 @@
 - name: copy all dotfiles to the home directory and install commonly used utilities
   # Have to run localhost seperate from other servers as need to ask for password
   # locally but not remote and ansible can't handle this use case yet.
-  hosts: localhost
-  #hosts: all:!localhost
+  #hosts: localhost
+  hosts: all:!localhost
 
   tasks:
     - name: create group by operating system
@@ -17,7 +17,6 @@
     - include: tasks/macosx.yml
     - include: tasks/dotfiles.yml
     - include: tasks/nodejs_utilities.yml
-    - include: tasks/ruby_gem_utilities.yml
     - include: tasks/vim.yml
     - include: tasks/git_extras.yml
     - include: tasks/utilities.yml
@@ -28,7 +27,6 @@
     - include: tasks/debian.yml
     - include: tasks/dotfiles.yml
     - include: tasks/nodejs_utilities.yml
-    - include: tasks/ruby_gem_utilities.yml
     - include: tasks/vim.yml
     - include: tasks/git_extras.yml
     - include: tasks/utilities.yml
@@ -40,7 +38,6 @@
     - include: tasks/redhat.yml
     - include: tasks/dotfiles.yml
     - include: tasks/nodejs_utilities.yml
-    - include: tasks/ruby_gem_utilities.yml
     - include: tasks/vim.yml
     - include: tasks/git_extras.yml
     - include: tasks/utilities.yml
