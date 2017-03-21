@@ -54,6 +54,15 @@ Plug 'ervandew/supertab'
 " commenting code
 Plug 'scrooloose/nerdcommenter'
 
+" Highlight white space
+Plug 'ntpeters/vim-better-whitespace'
+
+" Git/GitHub helpers
+Plug 'tpope/vim-fugitive'
+
+" TOML syntax
+Plug 'cespare/vim-toml'
+
 call plug#end()
 
  " ctrl-p file search
@@ -63,7 +72,7 @@ nnoremap <leader>a :Ag
 nmap <leader>n :NERDTreeToggle<cr>
 
 set background=dark
-colorscheme solarized 
+colorscheme solarized
 set colorcolumn=85 " Show a colored column at 85 characters.
 
 set number " show line numbers in the gutter.
