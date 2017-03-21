@@ -114,6 +114,6 @@
 - name: Increase sound quality for Bluetooth headphones/headsets
   command: defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
 
-- name: Install pip with easy_install
-  command: sudo easy_install pip
-  sudo: true
+#- name: Install pip with easy_install
+  #command: sudo easy_install pip
+  #sudo: true

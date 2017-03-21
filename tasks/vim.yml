@@ -1,33 +1,36 @@
-- name: See if Janus vim is installed.
-  shell: "[ -d ~/.vim/janus ] && echo 'Found' || echo ''"
-  register: janus_installed
-  tags: vim
-- name: install the Janus vim distro
-  git: repo=https://github.com/carlhuda/janus.git dest=~/.vim
-  when: (not janus_installed.stdout)
-  tags: vim
-- name: run rake inside the .vim directory to update Janus
-  command: rake chdir=~/.vim
-  tags: vim
-  ignore_errors: true
-- name: Install vim-airline, a status/tabline for Vim
-  git: repo=https://github.com/bling/vim-airline.git dest=~/.janus/vim-airline
-  tags: vim
-- name: Add syntax highlighting for eco—a coffeescript template language
-  git: repo=https://github.com/AndrewRadev/vim-eco.git dest=~/.janus/vim-eco
-  tags: vim
-- name: Add syntax highlighting for JSX, the facebook js/xml markup language for React.
-  git: repo=https://github.com/mxw/vim-jsx.git dest=~/.janus/vim-jsx
-  tags: vim
-- name: Add the solarized theme
-  git: repo=https://github.com/altercation/vim-colors-solarized dest=~/.janus/vim-solarized
-  tags: vim
-- name: Add syntax highlighting for cjsx — Coffeescript JSX
-  git: repo=https://github.com/mtscout6/vim-cjsx.git dest=~/.janus/vim-cjsx
-  tags: vim
-- name: Add syntax highlighting for Docker
-  git: repo=https://github.com/ekalinin/Dockerfile.vim.git dest=~/.janus/vim-dockerfile
-  tags: vim
-- name: Add syntax highlighting for JSX
-  git: repo=https://github.com/mxw/vim-jsx.git dest=~/.janus/vim-jsx
-  tags: vim
+# - name: See if Janus vim is installed.
+  # shell: "[ -d ~/.vim/janus ] && echo 'Found' || echo ''"
+  # register: janus_installed
+  # tags: vim
+# - name: install the Janus vim distro
+  # git: repo=https://github.com/carlhuda/janus.git dest=~/.vim
+  # when: (not janus_installed.stdout)
+  # tags: vim
+# - name: run rake inside the .vim directory to update Janus
+  # command: rake chdir=~/.vim
+  # tags: vim
+  # ignore_errors: true
+# - name: Install vim-airline, a status/tabline for Vim
+  # git: repo=https://github.com/bling/vim-airline.git dest=~/.janus/vim-airline
+  # tags: vim
+# - name: Install vim-flow for integration with Flow, a JS static type checker.
+  # git: repo=git://github.com/facebook/vim-flow.git dest=~/.janus/vim-flow
+  # tags: vim
+# - name: Add syntax highlighting for eco—a coffeescript template language
+  # git: repo=https://github.com/AndrewRadev/vim-eco.git dest=~/.janus/vim-eco
+  # tags: vim
+# - name: Add syntax highlighting for JSX, the facebook js/xml markup language for React.
+  # git: repo=https://github.com/mxw/vim-jsx.git dest=~/.janus/vim-jsx
+  # tags: vim
+# - name: Add the solarized theme
+  # git: repo=https://github.com/altercation/vim-colors-solarized dest=~/.janus/vim-solarized
+  # tags: vim
+# - name: Add syntax highlighting for cjsx — Coffeescript JSX
+  # git: repo=https://github.com/mtscout6/vim-cjsx.git dest=~/.janus/vim-cjsx
+  # tags: vim
+# - name: Add syntax highlighting for Docker
+  # git: repo=https://github.com/ekalinin/Dockerfile.vim.git dest=~/.janus/vim-dockerfile
+  # tags: vim
+# - name: Add syntax highlighting for JSX
+  # git: repo=https://github.com/mxw/vim-jsx.git dest=~/.janus/vim-jsx
+  # tags: vim
