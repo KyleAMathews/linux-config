@@ -6,20 +6,16 @@
   action: template src=templates/bashrc dest=~/.bashrc
   tags: dotfile
 
+- name: install config.fish
+  action: template src=templates/config.fish dest=~/.config/fish/config.fish
+  tags: dotfile
+
 - name: install .gitconfig
   action: template src=templates/gitconfig dest=~/.gitconfig
   tags: dotfile
 
-- name: install .ackrc
-  action: template src=templates/ackrc dest=~/.ackrc
-  tags: dotfile
-
-- name: install .vimrc.before
-  action: template src=templates/vimrc.before dest=~/.vimrc.before
-  tags: dotfile
-
-- name: install .vimrc.after
-  action: template src=templates/vimrc.after dest=~/.vimrc.after
+- name: install nvim init.vim
+  action: template src=templates/init.vim dest=~/.config/nvim/init.vim
   tags: dotfile
 
 - name: install .gitignore_global
