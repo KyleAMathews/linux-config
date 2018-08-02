@@ -17,7 +17,7 @@
     - include: tasks/macosx.yml
     - include: tasks/dotfiles.yml
     - include: tasks/nodejs_utilities.yml
-    - include: tasks/vim.yml
+      #- include: tasks/vim.yml
     - include: tasks/git_extras.yml
     - include: tasks/utilities.yml
     - include: tasks/python_utilities.yml

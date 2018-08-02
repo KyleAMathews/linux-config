@@ -1,5 +1,5 @@
 - name: install z, a quick jump utility
-  git: repo=https://github.com/rupa/z.git dest=/usr/local/z
+  git: repo=https://github.com/rupa/z.git dest=/usr/local/bin/z
   tags:
     - z
     - install

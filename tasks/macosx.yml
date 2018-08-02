@@ -1,12 +1,14 @@
-- name: Tap various Brew Casks
-  homebrew_tap: tap=homebrew/dupes,homebrew/science,caskroom/cask state=present
+- homebrew_tap:
+    name: Homebrew/homebrew-cask-versions
+    
+- homebrew_tap:
+    name: Homebrew/homebrew-cask-fonts
 
 - name: Install xQuartz, necessary dependency for several homebrew recipes
   homebrew_cask: name=xquartz state=present
 
-#- name: Update Homebrew and Upgrade all homebrew packages
-  #homebrew: update_homebrew=yes upgrade_all=yes
-  # Not working, fix in master - https://github.com/ansible/ansible/issues/7924
+- name: Update Homebrew and Upgrade all homebrew packages
+  homebrew: update_homebrew=yes upgrade_all=yes
 
 - name: install common utilities on Mac OSX with homebrew
   homebrew: name={{ item }} state=present
@@ -14,27 +16,28 @@
   ignore_errors: true
   with_items:
     - ctags
-    - meld
-    - mysql
-    - mongodb
     - the_silver_searcher
     - tmux
     - wget
-    - redis
     - git
     - ssh-copy-id
     - htop-osx
     - nmap
-    - mosh
     - watch
     - node
+    - neovim
     - coreutils
-    - brew-cask
-    - fontforge
-    - ttfautohint
+    - ccat
+    - fzf
+    - tig
+    - fish
+    - mas # Install from Mac Store
 
-- name: Install Vim
-  homebrew: name=vim install_options=override-system-vi
+#- name: Install Fish
+#  command: echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
+#- command: chsh -s /usr/local/bin/fish #make fish shell default
+#- command: curl -L https://get.oh-my.fish | fish
+#- command: omf install brew git-flow osx pure
 
 - name: Install binaries with Homebrew cask
   homebrew_cask: name={{ item }} state=present
@@ -47,12 +50,14 @@
     - dropbox
     - evernote
     - firefox
+    - font-fira-code
     - flash
     - flux
     - gimp
     - google-chrome
     - google-chrome-canary
     - google-hangouts
+    - handbrake
     - hipchat
     - heroku-toolbelt
     - inkscape
@@ -62,6 +67,7 @@
     - lighttable
     - limechat
     - lyx
+    - meld
     - ngrok
     - silverlight
     - slack
@@ -69,7 +75,6 @@
     - sublime-text
     - rstudio # R IDE
     - vagrant
-    - virtualbox
     - vlc
     - wireshark
     - qlcolorcode # This and the following are quicklook plugins
@@ -81,9 +86,11 @@
     - betterzipql
     - webp-quicklook
     - suspicious-package
-    - vagrant-manager
     - skitch
     - skype
+
+#- name: Install mac store apps
+#  command: mas install 668208984 # Giphy Capture
 
 - name: Enable quicklook plugins (which just got installed)
   command: qlmanage -r

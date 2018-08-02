@@ -2,14 +2,11 @@
   npm: name={{ item }} global=yes
   sudo: yes
   with_items:
-    - coffee-script
     - jsonlint
     - js-yaml
     - fixpack # Cleanup package.json https://github.com/HenrikJoreteg/fixpack
-    - vtop # Nice looking top replacement written in node.js
     - hicat # cat with syntax highlighting
-    - npm-check # Force update modules in package.json
     - eslint
     - babel-eslint
     - eslint-plugin-react
-    - coffeelint # Lint coffeescript code
+    - yarn
