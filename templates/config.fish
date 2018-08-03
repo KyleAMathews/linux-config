@@ -37,7 +37,6 @@ end
 
 # Load binaries from /usr/local/bin first (e.g. homebrew packages)
 set PATH /usr/local/bin /usr/sbin $PATH
-. /usr/local/bin/z.fish
 
 # Aliases
 alias vi 'nvim'

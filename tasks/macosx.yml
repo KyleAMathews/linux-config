@@ -32,12 +32,13 @@
     - tig
     - fish
     - mas # Install from Mac Store
+    - hub
 
 #- name: Install Fish
 #  command: echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
 #- command: chsh -s /usr/local/bin/fish #make fish shell default
 #- command: curl -L https://get.oh-my.fish | fish
-#- command: omf install brew git-flow osx pure
+#- command: omf install brew git-flow osx pure z
 
 - name: Install binaries with Homebrew cask
   homebrew_cask: name={{ item }} state=present
