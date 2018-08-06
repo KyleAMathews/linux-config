@@ -47,7 +47,7 @@ alias gats-dev 'node ~/programs/gatsby/packages/gatsby-dev-cli/src/index.js'
 set -x GITHUB_AUTH 5ad35e3771281bfedf5f36b8e86c502ab59d9975
 
 # Set git editor to vim
-set -x GIT_EDITOR vim
+set -x GIT_EDITOR nvim
 
 # NPM auth
 set -x NPM_TOKEN a303078c-d139-4d81-8cab-3e13cae5da8b
