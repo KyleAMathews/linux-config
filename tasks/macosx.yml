@@ -20,6 +20,7 @@
     - tmux
     - wget
     - git
+    - go
     - ssh-copy-id
     - htop-osx
     - nmap
@@ -48,6 +49,7 @@
     - alfred # Better launcher
     - adobe-reader
     - android-file-transfer
+    - discord
     - dropbox
     - evernote
     - firefox

@@ -38,6 +38,9 @@ end
 # Load binaries from /usr/local/bin first (e.g. homebrew packages)
 set PATH /usr/local/bin /usr/sbin $PATH
 
+# Load Go binaries
+set PATH=$PATH /usr/local/opt/go/libexec/bin
+
 # Aliases
 alias vi 'nvim'
 alias vim 'nvim'
