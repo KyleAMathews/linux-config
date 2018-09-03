@@ -93,7 +93,7 @@ nnoremap <C-p> :FZF<CR>
 nnoremap <leader>a :Ag
 nmap <leader>n :NERDTreeToggle<cr>
 
-set background=dark
+set background=light
 colorscheme solarized
 set colorcolumn=85 " Show a colored column at 85 characters.
 
