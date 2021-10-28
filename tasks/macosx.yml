@@ -34,6 +34,7 @@
     - fish
     - mas # Install from Mac Store
     - hub
+    - z
 
 #- name: Install Fish
 #  command: echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
@@ -54,44 +55,45 @@
     - evernote
     - firefox
     - font-fira-code
-    - flash
-    - flux
+    #- flash
+    #- flux
     - gimp
     - google-chrome
     - google-chrome-canary
-    - google-hangouts
+    #- google-hangouts
     - handbrake
-    - hipchat
-    - heroku-toolbelt
+    #- hipchat
+    #- heroku-toolbelt
     - inkscape
     - iterm2
     - keepassx
     - kindle
-    - lighttable
-    - limechat
-    - lyx
+    #- lighttable
+    #- limechat
+    #- lyx
     - meld
     - ngrok
     - scapple
-    - silverlight
+    #- silverlight
     - slack
     - spotify
     - sublime-text
     - rstudio # R IDE
-    - vagrant
+    #- vagrant
     - vlc
     - wireshark
-    - qlcolorcode # This and the following are quicklook plugins
-    - qlstephen
-    - qlmarkdown
-    - quicklook-json
-    - qlprettypatch
-    - quicklook-csv
-    - betterzipql
-    - webp-quicklook
-    - suspicious-package
-    - skitch
-    - skype
+    #- qlcolorcode # This and the following are quicklook plugins
+    #- qlstephen
+    #- qlmarkdown
+    #- quicklook-json
+    #- qlprettypatch
+    #- quicklook-csv
+    #- betterzipql
+    #- webp-quicklook
+    #- suspicious-package
+    #- skitch
+    #- skype
+    - zoom
 
 #- name: Install mac store apps
 #  command: mas install 668208984 # Giphy Capture
