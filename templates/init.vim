@@ -12,90 +12,64 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'sjl/badwolf'
 Plug 'altercation/vim-colors-solarized'
 Plug 'sts10/vim-mustard'
+Plug 'fatih/molokai'
+Plug 'morhetz/gruvbox'
+Plug 'arcticicestudio/nord-vim'
 
-" Baseline of settings
-Plug 'tpope/vim-sensible'
+" highlight color values in code.
+Plug 'norcalli/nvim-colorizer.lua'
 
-" File searcher
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+" Make LSP diagnostic colors work better for older color schemes
+Plug 'folke/lsp-colors.nvim'
 
-" The ever awesome surround plugin
-Plug 'tpope/vim-surround'
+" LSP
+Plug 'neovim/nvim-lspconfig'
+Plug 'anott03/nvim-lspinstall'
 
-" silver searcher integration.
-Plug 'rking/ag.vim'
+" LSP go-to definitions etc 
+" Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' }
+" Plug 'ray-x/navigator.lua'
 
-" Show git changes in gutter
-Plug 'airblade/vim-gitgutter'
+" Auto complete
+Plug 'hrsh7th/nvim-compe'
 
-" Good ol' Nerdtree
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+" File finder
+Plug 'camspiers/snap'
 
-" Distraction free writing :Goyo
-Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-Plug 'reedes/vim-pencil', { 'for': 'markdown' }
-
-" Async run scripts e.g. eslint
-Plug 'neomake/neomake'
-
-" Async run formatters e.g. prettier
-Plug 'sbdchd/neoformat'
-
-" Flow
-" Plug 'flowtype/vim-flow', { 'for': 'javascript' }
-
-" Improve terminal support :Term :VTerm
-Plug 'vimlab/split-term.vim'
-
-"JavaScript specific
-" Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
-" Plug 'mxw/vim-jsx', { 'for': ['javascript', 'javascript.jsx'] }
-Plug 'neoclide/vim-jsx-improve', { 'for': ['javascript', 'javascript.jsx'] }
-Plug 'elzr/vim-json'
-Plug 'moll/vim-node' " gf on requires to jump to its file ❤️
-
-" GUI for undoing mapped to <leader>u
-Plug 'sjl/gundo.vim'
+" Treesitter
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/playground'
 
 " A statusline plugin
 Plug 'vim-airline/vim-airline'
-
-" Autocomplete
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'ervandew/supertab'
+Plug 'vim-airline/vim-airline-themes'
+" enable showing buffers in tab nav
+let g:airline#extensions#tabline#enabled = 1
 
 " commenting code
 Plug 'scrooloose/nerdcommenter'
-
-" Highlight white space
-Plug 'ntpeters/vim-better-whitespace'
 
 " Git/GitHub helpers
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 
-" TOML syntax
-Plug 'cespare/vim-toml'
-
-" Change vim working directory to the project root.
-Plug 'airblade/vim-rooter'
-
-" Add indent guides
-Plug 'nathanaelkane/vim-indent-guides'
+" Markdown preview
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
 call plug#end()
 
- " ctrl-p file search
-nnoremap <C-p> :FZF<CR>
-" silver searcher
-nnoremap <leader>a :Ag
-nmap <leader>n :NERDTreeToggle<cr>
 
-set background=light
-colorscheme solarized
+let g:gruvbox_contrast_dark = 'hard'
+colorscheme gruvbox
+set background=dark
 set colorcolumn=85 " Show a colored column at 85 characters.
+
+" Enable true color
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
 
 set number " show line numbers in the gutter.
 set relativenumber " numbers are relative to the cursor.
@@ -119,9 +93,6 @@ nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
 " Map jj to <ESC> to make it easier to move to normal mode
 inoremap jj <ESC>
 
-" toggle gundo
-nnoremap <leader>u :GundoToggle<CR>
-
 " Edit file at the current buffers directory
 nmap <leader>ew :e <C-R>=expand('%:h').'/'<cr>
 
@@ -132,13 +103,6 @@ nnoremap <leader>w <C-w>v<C-w>l
 
 " Open a new horizontal split and switch to it
 nnoremap <leader>h <C-w>s<C-w>l
-
-" Hack to get C-h working in neovim
-if has('nvim')
-  let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-  nmap <BS> <C-W>h
-  tnoremap <Esc> <C-\><C-n>
-endif
 
 " Map Ctrl plus normal navigation keys to move around splits
 nnoremap <C-h> <C-w>h
@@ -164,6 +128,38 @@ nnoremap k gk
 " Make Tab work for switching between matching bracket pairs
 nnoremap <tab> %
 vnoremap <tab> %
+
+" map ; to :
+nmap ; :
+
+" completion
+set completeopt=menuone,noinsert,noselect
+let g:compe = {}
+let g:compe.enabled = v:true
+let g:compe.autocomplete = v:true
+let g:compe.debug = v:false
+let g:compe.min_length = 1
+let g:compe.preselect = 'enable'
+let g:compe.throttle_time = 80
+let g:compe.source_timeout = 200
+let g:compe.incomplete_delay = 400
+let g:compe.max_abbr_width = 100
+let g:compe.max_kind_width = 100
+let g:compe.max_menu_width = 100
+let g:compe.documentation = v:true
+
+let g:compe.source = {}
+let g:compe.source.path = v:true
+let g:compe.source.buffer = v:true
+let g:compe.source.calc = v:true
+let g:compe.source.nvim_lsp = v:true
+let g:compe.source.nvim_lua = v:true
+
+inoremap <silent><expr> <C-Space> compe#complete()
+inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 
 " NerdCommenter
 let g:NERDSpaceDelims = 1 " add space after comment delimiter
@@ -204,68 +200,194 @@ endfunction
 " Start the find and replace command across the entire file
 vmap <leader>z <Esc>:%s/<c-r>=GetVisual()<cr>/
 
-" map ; to :
-nmap ; :
+"" LSPs
+lua require'lspconfig'.tsserver.setup{}
 
-" Javascript stuff
-" Set tabs to two spaces for javascript
-au FileType javascript setl sw=2 sts=2 expandtab
-" let g:neoformat_javascript_prettier = {
-          " \ 'exe': 'prettier',
-          " \ 'args': ['--stdin', '--trailing-comma es5', '--no-semi'],
-          " \ }
-autocmd FileType javascript setlocal formatprg=prettier\ --stdin\ --parser\ flow\ --trailing-comma\ es5
-" Use formatprg when available
-let g:neoformat_try_formatprg = 1
-" let g:neoformat_enabled_javascript = ['prettier']
-"neoformat: format javascript, css, markdown on save
-autocmd BufWritePre *.js Neoformat " Run Prettier on save.
-autocmd BufWritePre *.jsx Neoformat
-autocmd BufWritePre *.css Neoformat
-autocmd BufWritePre *.md Neoformat
-autocmd BufWritePre *.json Neoformat
+lua <<EOF
+require 'colorizer'.setup {
+  'css';
+  'javascript';
+  html = {
+    mode = 'foreground';
+  }
+}
+EOF
 
-" Markdown
-let g:neoformat_markdown_prettier = {
-          \ 'exe': 'prettier',
-          \ 'stdin': 1,
-          \ }
-let g:neoformat_enabled_markdown = ['prettier']
-autocmd BufWritePre *.md Neoformat
-autocmd BufWritePre *.markdown Neoformat
+"" Treesitter
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+    highlight = {
+        enable = true,
+    },
+    incremental_selection = {
+        enable = false,
+    },
+    ensure_installed = {'javascript'}
+}
+EOF
 
-let g:neomake_javascript_enabled_makers = ['eslint']
-autocmd! BufWritePost * Neomake " Run eslint on close
+"" Snap
+lua <<EOF
+local snap = require'snap'
 
-" vim-javascript
-let g:javascript_plugin_flow = 1
-let g:javascript_plugin_jsdoc = 1
+local fzf = snap.get'consumer.fzf'
+local limit = snap.get'consumer.limit'
+local producer_file = snap.get'producer.ripgrep.file'
+local producer_vimgrep = snap.get'producer.ripgrep.vimgrep'
+local producer_buffer = snap.get'producer.vim.buffer'
+local producer_oldfile = snap.get'producer.vim.oldfile'
+local select_file = snap.get'select.file'
+local select_vimgrep = snap.get'select.vimgrep'
+local preview_file = snap.get'preview.file'
+local preview_vimgrep = snap.get'preview.vimgrep'
 
-" Respect .gitignore by getting list of files from silver searcher
-" which has code built-in for looking at .gitignore.
-let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+snap.register.map({'n'}, {'<Leader><Leader>'}, function ()
+  snap.run({
+    prompt = 'Files',
+    producer = fzf(producer_file),
+    select = select_file.select,
+    multiselect = select_file.multiselect,
+    views = {preview_file}
+  })
+end)
 
-" Enable true color
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+snap.register.map({'n'}, {'<Leader>ff'}, function ()
+  snap.run({
+    prompt = 'Grep',
+    producer = limit(10000, producer_vimgrep),
+    select = select_vimgrep.select,
+    multiselect = select_vimgrep.multiselect,
+    views = {preview_vimgrep}
+  })
+end)
 
-" Python setup for mac
-let g:python2_host_prog = '/usr/local/bin/python'
-let g:python3_host_prog = '/usr/local/bin/python3'
+snap.register.map({'n'}, {'<Leader>fb'}, function ()
+  snap.run({
+    prompt = 'Buffers',
+    producer = fzf(producer_buffer),
+    select = select_file.select,
+    multiselect = select_file.multiselect,
+    views = {preview_file}
+  })
+end)
 
-" vim-rooter config — run :Rooter on opening a file.
-augroup vimrc_rooter
-    autocmd!
-    autocmd VimEnter * :Rooter
-augroup END
+snap.register.map({'n'}, {'<Leader>fo'}, function ()
+  snap.run({
+    prompt = 'Oldfiles',
+    producer = fzf(producer_oldfile),
+    select = select_file.select,
+    multiselect = select_file.multiselect,
+    views = {preview_file}
+  })
+end)
 
-" Markdown settings
-let g:vim_markdown_folding_disabled = 1
-let g:vim_markdown_frontmatter = 1
-let g:vim_markdown_new_list_item_indent = 2
-let g:pencil#wrapModeDefault = 'soft'   " default is 'hard'
-let g:pencil#textwidth = 74
-augroup pencil
-  autocmd!
-  autocmd FileType markdown,mkd call pencil#init()
-  autocmd FileType text         call pencil#init()
-augroup END
+snap.register.map({'n'}, {'<Leader>m'}, function ()
+  snap.run({
+    prompt = 'Grep',
+    producer = limit(10000, producer_vimgrep),
+    select = select_vimgrep.select,
+    multiselect = select_vimgrep.multiselect,
+    initial_filter = vim.fn.expand('<cword>')
+  })
+end)
+EOF
+
+lua << EOF
+
+local lspconfig = require'lspconfig'
+
+-- npm i -g eslint_d
+-- brew install efm-langserver 
+local eslint = {
+  lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
+  lintStdin = true,
+  lintFormats = {"%f:%l:%c: %m"},
+  lintIgnoreExitCode = true,
+  formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
+  formatStdin = true
+}
+
+local function eslint_config_exists()
+  local eslintrc = vim.fn.glob(".eslintrc*", 0, 1)
+
+  if not vim.tbl_isempty(eslintrc) then
+    return true
+  end
+
+  if vim.fn.filereadable("package.json") then
+    if vim.fn.json_decode(vim.fn.readfile("package.json"))["eslintConfig"] then
+      return true
+    end
+  end
+
+  return false
+end
+
+vim.lsp.handlers["textDocument/formatting"] = function(err, _, result, _, bufnr)
+    if err ~= nil or result == nil then
+        return
+    end
+    if not vim.api.nvim_buf_get_option(bufnr, "modified") then
+        local view = vim.fn.winsaveview()
+        vim.lsp.util.apply_text_edits(result, bufnr)
+        vim.fn.winrestview(view)
+        if bufnr == vim.api.nvim_get_current_buf() then
+            vim.api.nvim_command("noautocmd :update")
+        end
+    end
+end
+
+local on_attach = function(client)
+    if client.resolved_capabilities.document_formatting then
+        vim.api.nvim_command [[augroup Format]]
+        vim.api.nvim_command [[autocmd! * <buffer>]]
+        vim.api.nvim_command [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
+        vim.api.nvim_command [[augroup END]]
+    end
+end
+
+lspconfig.tsserver.setup {
+    on_attach = function(client)
+        -- Disable to avoid conflicts with prettier
+        client.resolved_capabilities.document_formatting = false
+        on_attach(client)
+    end
+}
+
+lspconfig.efm.setup{
+  init_options = {documentFormatting = true},
+  on_attach = on_attach,
+  root_dir = function()
+    if not eslint_config_exists() then
+      return nil
+    end
+    return vim.fn.getcwd()
+  end,
+  settings = {
+    rootMarkers = {".git/"},
+    languages = {
+      javascript = {eslint},
+      javascriptreact = {eslint},
+      ["javascript.jsx"] = {eslint},
+      typescript = {eslint},
+      ["typescript.tsx"] = {eslint},
+      typescriptreact = {eslint},
+      markdown = {eslint},
+    },
+  },
+  filetypes = {
+    "javascript",
+    "javascriptreact",
+    "javascript.jsx",
+    "typescript",
+    "typescript.tsx",
+    "typescriptreact",
+    "markdown",
+  },
+}
+EOF
+
+" " Setup Navigator plugin
+" lua <<EOF
+" require'navigator'.setup()
+" EOF

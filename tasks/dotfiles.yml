@@ -12,10 +12,14 @@
 
 
 - name: Ensures nvim config directory exists
-  file: path=~/.config/nvim state=directory
+  file: path=~/.config/nvim/lua state=directory
 
 - name: install nvim init.vim
   action: template src=templates/init.vim dest=~/.config/nvim/init.vim
+  tags: dotfile
+
+- name: install nvim lua config
+  action: template src=templates/lua.config dest=~/.config/nvim/lua/lua.config
   tags: dotfile
 
 - name: install .gitignore_global
