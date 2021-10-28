@@ -1,13 +1,10 @@
 - name: Install Node.js utilities
   npm: name={{ item }} global=yes
-  sudo: yes
   with_items:
     - gatsby-cli
     - gatsby-dev-cli
     - jsonlint
     - js-yaml
-    - fixpack # Cleanup package.json https://github.com/HenrikJoreteg/fixpack
-    - hicat # cat with syntax highlighting
     - eslint
     - eslint-plugin-flowtype
     - eslint-config-prettier

@@ -115,11 +115,12 @@ export PS1
 # Add Gem to the PATH
 export PATH=/var/lib/gems/1.8/bin:$PATH
 
-source /usr/local/z/z.sh
+source /opt/z/z.sh
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 alias grp='grep -rInP'
+alias vim='nvim'
 
 export ANSIBLE_HOSTS=~/.ansible_hosts
 
@@ -128,6 +129,7 @@ alias mem='smem -r -k'
 
 # Load binaries from /usr/local/bin first (e.g. homebrew packages)
 export PATH=/usr/local/bin:$PATH
+export PATH="$HOME/.local/bin:$PATH"
 
 # set PATH so it includes my private bin if it exists
 if [ -d "$HOME/bin" ]; then

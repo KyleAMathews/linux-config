@@ -18,19 +18,16 @@
     - include: tasks/dotfiles.yml
     - include: tasks/nodejs_utilities.yml
       #- include: tasks/vim.yml
-    - include: tasks/git_extras.yml
     - include: tasks/utilities.yml
     - include: tasks/python_utilities.yml
 
 - hosts: Debian
   tasks:
-    - include: tasks/debian.yml
     - include: tasks/dotfiles.yml
+    - include: tasks/debian.yml
     - include: tasks/nodejs_utilities.yml
-    - include: tasks/vim.yml
-    - include: tasks/git_extras.yml
+      #    - include: tasks/vim.yml
     - include: tasks/utilities.yml
-    - include: tasks/the_silver_searcher_from_source.yml
     - include: tasks/python_utilities.yml
 
 - hosts: RedHat
@@ -39,7 +36,5 @@
     - include: tasks/dotfiles.yml
     - include: tasks/nodejs_utilities.yml
     - include: tasks/vim.yml
-    - include: tasks/git_extras.yml
     - include: tasks/utilities.yml
-    - include: tasks/the_silver_searcher_from_source.yml
     - include: tasks/python_utilities.yml

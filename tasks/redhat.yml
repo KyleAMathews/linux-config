@@ -1,7 +1,6 @@
 - name: install common utilities on Fedora machines
   yum: name={{ item }} state=present
   tags: install
-  sudo: yes
   with_items:
       - xz-devel
       - tmux

@@ -1,7 +1,7 @@
 - name: install z, a quick jump utility
-  git: repo=https://github.com/rupa/z.git dest=/usr/local/bin/z
+  git: repo=https://github.com/rupa/z.git dest=/opt/z
+  become: yes
   tags:
     - z
     - install
-  sudo: yes
 

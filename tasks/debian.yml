@@ -1,43 +1,37 @@
-- name: Update all packages to the latest version
-  sudo: yes
-  apt: upgrade=dist
+- name: Update apt-get repo and cache
+  apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+  become: yes
+
+- name: Upgrade all apt packages
+  apt: upgrade=dist force_apt_get=yes
+  become: yes
 
 - name: install common utilities on Debian machines
-  apt: pkg={{ item }} state=present update_cache=yes
+  apt: pkg={{ item }} state=present
   tags: install
-  sudo: yes
+  become: yes
   with_items:
     - curl
-    - exuberant-ctags
-    - mosh
-    - vim
-    - python-pycurl # Needed to add repos
-    - rake
     - git
-    - python-pip
     - build-essential
-    - checkinstall
-    - software-properties-common
-    - python-software-properties
     - tmux
     - smem # Tool that does good job of figuring out "real" memory use of processes
     - automake
-    - pkg-config # The follow four packages are needed for compiling the_silver_searcher
-    - libpcre3-dev
-    - zlib1g-dev
-    - liblzma-dev
+    - silversearcher-ag
+    - kitty
+    - python3-pip
 
 ##
 # node.js installation (latest stable instead of Ubuntu's out-of-date one)
 #
 - name: Node.js | Run the debian setup.
-  shell: "curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -"
-  sudo: yes
+  shell: "curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -"
   tags: nodejs
+  become: yes
 
 - name: Node.js | Install nodejs and npm
-  apt: pkg={{ item }} state=present update_cache=yes
-  sudo: yes
+  apt: pkg={{ item }} state=present
   tags: nodejs
+  become: yes
   with_items:
     - nodejs

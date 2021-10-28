@@ -7,4 +7,3 @@
 - name: Build Git Extras
   command: make install chdir=/tmp/git-extras
   when: (not git_extras_installed.stdout)
-  sudo: yes
