@@ -1,5 +1,6 @@
 - name: Install Node.js utilities
   npm: name={{ item }} global=yes
+  become: yes
   with_items:
     - gatsby-cli
     - gatsby-dev-cli
@@ -14,3 +15,5 @@
     - babel-eslint
     - eslint-plugin-react
     - yarn
+    - typescript-language-server
+    - eslint_d

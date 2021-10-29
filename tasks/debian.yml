@@ -21,6 +21,7 @@
     - kitty
     - luajit
     - python3-pip
+    - golang-go
       # For building nvim
     - ninja-build
     - gettext
@@ -58,3 +59,7 @@
 
 # - name: neovim permissions
   # shell: "chmod u+x /opt/nvim.appimage"
+
+# Ubuntu is on an old version of go that doesn't have `go install` yet
+- name: install efm language server (for neovim)
+  shell: "go get github.com/mattn/efm-langserver"
