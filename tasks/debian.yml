@@ -19,7 +19,21 @@
     - automake
     - silversearcher-ag
     - kitty
+    - luajit
     - python3-pip
+      # For building nvim
+    - ninja-build
+    - gettext
+    - libtool 
+    - libtool-bin
+    - autoconf
+    - automake 
+    - cmake 
+    - g++ 
+    - pkg-config 
+    - unzip 
+    - curl 
+    - doxygen
 
 ##
 # node.js installation (latest stable instead of Ubuntu's out-of-date one)
@@ -35,3 +49,12 @@
   become: yes
   with_items:
     - nodejs
+
+# Install neovim w/ an appimage
+# - name: Install neovim
+
+  # shell: "wget https://github.com/neovim/neovim/releases/download/stable/nvim.appimage -O /opt/nvim.appimage"
+  # become: yes
+
+# - name: neovim permissions
+  # shell: "chmod u+x /opt/nvim.appimage"
