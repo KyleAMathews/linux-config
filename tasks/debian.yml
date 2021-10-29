@@ -18,6 +18,8 @@
     - smem # Tool that does good job of figuring out "real" memory use of processes
     - automake
     - silversearcher-ag
+    - fzf
+    - ripgrep
     - kitty
     - luajit
     - python3-pip
