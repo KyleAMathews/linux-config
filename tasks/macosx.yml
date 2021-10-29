@@ -1,11 +1,11 @@
-- homebrew_tap:
-    name: Homebrew/homebrew-cask-versions
+# - homebrew_tap:
+    # name: Homebrew/homebrew-cask-versions
     
-- homebrew_tap:
-    name: Homebrew/homebrew-cask-fonts
+# - homebrew_tap:
+    # name: Homebrew/homebrew-cask-fonts
 
-- name: Install xQuartz, necessary dependency for several homebrew recipes
-  homebrew_cask: name=xquartz state=present
+# - name: Install xQuartz, necessary dependency for several homebrew recipes
+  # homebrew_cask: name=xquartz state=present
 
 - name: Update Homebrew and Upgrade all homebrew packages
   homebrew: update_homebrew=yes upgrade_all=yes
@@ -15,25 +15,25 @@
   tags: install macosx
   ignore_errors: true
   with_items:
-    - ctags
+    # - ctags
     - the_silver_searcher
-    - tmux
+    # - tmux
     - wget
     - git
-    - go
-    - ssh-copy-id
-    - htop-osx
-    - nmap
+    # - go
+    # - ssh-copy-id
+    # - htop-osx
+    # - nmap
     - watch
-    - node
-    - neovim
-    - coreutils
-    - ccat
-    - fzf
-    - tig
-    - fish
-    - mas # Install from Mac Store
-    - hub
+    # - node
+    # - neovim
+    # - coreutils
+    # - ccat
+    # - fzf
+    # - tig
+    # - fish
+    # - mas # Install from Mac Store
+    # - hub
     - z
 
 #- name: Install Fish
@@ -47,12 +47,12 @@
   tags: install macosx
   ignore_errors: true
   with_items:
-    - alfred # Better launcher
+    # - alfred # Better launcher
     - adobe-reader
-    - android-file-transfer
+    # - android-file-transfer
     - discord
-    - dropbox
-    - evernote
+    # - dropbox
+    # - evernote
     - firefox
     - font-fira-code
     #- flash
@@ -65,8 +65,8 @@
     #- hipchat
     #- heroku-toolbelt
     - inkscape
-    - iterm2
-    - keepassx
+    # - iterm2
+    - keepassxc
     - kindle
     #- lighttable
     #- limechat
@@ -75,10 +75,10 @@
     - ngrok
     - scapple
     #- silverlight
-    - slack
-    - spotify
-    - sublime-text
-    - rstudio # R IDE
+    # - slack
+    # - spotify
+    # - sublime-text
+    # - rstudio # R IDE
     #- vagrant
     - vlc
     - wireshark
@@ -93,7 +93,7 @@
     #- suspicious-package
     #- skitch
     #- skype
-    - zoom
+    # - zoom
 
 #- name: Install mac store apps
 #  command: mas install 668208984 # Giphy Capture
