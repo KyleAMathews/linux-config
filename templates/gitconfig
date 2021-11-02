@@ -33,4 +33,4 @@
 	wtf = !git-wtf
 [core]
 	excludesfile = ~/.gitignore_global
-  editor = vim
+  editor = nvim

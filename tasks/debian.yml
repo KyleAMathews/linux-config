@@ -22,6 +22,7 @@
     - ripgrep
     - kitty
     - luajit
+    - python
     - python3-pip
     - golang-go
       # For building nvim
