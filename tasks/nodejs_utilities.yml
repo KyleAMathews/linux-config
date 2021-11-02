@@ -17,3 +17,4 @@
     - yarn
     - typescript-language-server
     - eslint_d
+    - n
