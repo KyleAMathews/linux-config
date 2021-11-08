@@ -51,6 +51,7 @@
     - docker-ce
     - docker-ce-cli
     - containerd.io
+    - libpng-dev # required for some node packages to compile
 
 - name: link fdfind binary to fd
   shell: "ln -sf $(which fdfind) ~/.local/bin/fd"
