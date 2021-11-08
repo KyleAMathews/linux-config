@@ -1,3 +1,12 @@
+- name: Install Docker GPG key
+  shell: "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg"
+  become: yes
+
+- name: Install docker engine repo
+  shell: 'echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null'
+
 - name: Update apt-get repo and cache
   apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
   become: yes
@@ -19,6 +28,7 @@
     - automake
     - silversearcher-ag
     - fzf
+    - fd-find
     - ripgrep
     - kitty
     - luajit
@@ -38,12 +48,21 @@
     - unzip 
     - curl 
     - doxygen
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+
+- name: link fdfind binary to fd
+  shell: "ln -sf $(which fdfind) ~/.local/bin/fd"
+
+- name: Add user to docker group
+  shell: "sudo groupadd docker && sudo gpasswd -a ${USER} docker && sudo service docker restart && newgrp docker"
 
 ##
 # node.js installation (latest stable instead of Ubuntu's out-of-date one)
 #
 - name: Node.js | Run the debian setup.
-  shell: "curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -"
+  shell: "curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -"
   tags: nodejs
   become: yes
 
@@ -55,6 +74,7 @@
     - nodejs
 
 # Install neovim w/ an appimage
+# TODO maybe fix - compiling from source seems easier for now.
 # - name: Install neovim
 
   # shell: "wget https://github.com/neovim/neovim/releases/download/stable/nvim.appimage -O /opt/nvim.appimage"
@@ -66,3 +86,7 @@
 # Ubuntu is on an old version of go that doesn't have `go install` yet
 - name: install efm language server (for neovim)
   shell: "go get github.com/mattn/efm-langserver"
+
+# docker-compose
+- name: Install docker-compose
+  shell: "curl -L https://github.com/docker/compose/releases/download/v2.1.0/docker-compose-linux-aarch64 -o /usr/local/bin/docker-compose" && chmod +x
