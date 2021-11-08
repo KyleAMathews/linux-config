@@ -18,3 +18,5 @@
     - typescript-language-server
     - eslint_d
     - n
+    - prisma
+    - lerna
