@@ -53,6 +53,9 @@
     - containerd.io
     - libpng-dev # required for some node packages to compile
 
+- name: Ensures ./local/bin directory exists
+  file: path=~/.local/bin state=directory
+
 - name: link fdfind binary to fd
   shell: "ln -sf $(which fdfind) ~/.local/bin/fd"
 
