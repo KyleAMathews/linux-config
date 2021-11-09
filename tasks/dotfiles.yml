@@ -6,6 +6,10 @@
   action: template src=templates/bashrc dest=~/.bashrc
   tags: dotfile
 
+- name: install .zshrc
+  action: template src=templates/zshrc dest=~/.zshrc
+  tags: dotfile
+
 - name: install .gitconfig
   action: template src=templates/gitconfig dest=~/.gitconfig
   tags: dotfile

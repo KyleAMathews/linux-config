@@ -52,6 +52,7 @@
     - docker-ce-cli
     - containerd.io
     - libpng-dev # required for some node packages to compile
+    - zsh
 
 - name: Ensures ./local/bin directory exists
   file: path=~/.local/bin state=directory
@@ -63,6 +64,14 @@
   become: yes
   shell: "groupadd docker && gpasswd -a ${USER} docker && service docker restart && newgrp docker"
   # This errors on subsquent runs
+  ignore_errors: yes
+
+    # This requires a password so do it manually until want to figure out ansible's way
+# - name: Set zsh as the default shell
+  # shell: 'chsh -s $(which zsh)'
+
+- name: Install ohmyzsh
+  shell: 'sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
   ignore_errors: yes
 
 ##
