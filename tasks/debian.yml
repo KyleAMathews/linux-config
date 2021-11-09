@@ -62,6 +62,8 @@
 - name: Add user to docker group
   become: yes
   shell: "groupadd docker && gpasswd -a ${USER} docker && service docker restart && newgrp docker"
+  # This errors on subsquent runs
+  ignore_errors: yes
 
 ##
 # node.js installation (latest stable instead of Ubuntu's out-of-date one)
