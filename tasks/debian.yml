@@ -60,7 +60,8 @@
   shell: "ln -sf $(which fdfind) ~/.local/bin/fd"
 
 - name: Add user to docker group
-  shell: "sudo groupadd docker && sudo gpasswd -a ${USER} docker && sudo service docker restart && newgrp docker"
+  become: yes
+  shell: "groupadd docker && gpasswd -a ${USER} docker && service docker restart && newgrp docker"
 
 ##
 # node.js installation (latest stable instead of Ubuntu's out-of-date one)
