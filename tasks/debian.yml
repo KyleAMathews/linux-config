@@ -80,15 +80,20 @@
   with_items:
     - nodejs
 
-# Install neovim w/ an appimage
-# TODO maybe fix - compiling from source seems easier for now.
-# - name: Install neovim
+# neovim is old in Ubuntu so let's stay on the bleeding edge and compile from source
+- name: Clone neovim
+  git: repo=https://github.com/neovim/neovim.git dest=~/programs/neovim
 
-  # shell: "wget https://github.com/neovim/neovim/releases/download/stable/nvim.appimage -O /opt/nvim.appimage"
-  # become: yes
+- name: make neovim
+  shell:
+    cmd: "make CMAKE_BUILD_TYPE=Release -j4"
+    chdir: ~/programs/neovim
 
-# - name: neovim permissions
-  # shell: "chmod u+x /opt/nvim.appimage"
+- name: install neovim
+  shell:
+    cmd: "make install"
+    chdir: /home/kyle/programs/neovim
+  become: yes
 
 # Ubuntu is on an old version of go that doesn't have `go install` yet
 - name: install efm language server (for neovim)
