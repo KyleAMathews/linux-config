@@ -54,6 +54,7 @@
     - libpng-dev # required for some node packages to compile
     - zsh
     - ufw
+    - glances # nice top-like tool 
 
 - name: Ensures ./local/bin directory exists
   file: path=~/.local/bin state=directory
@@ -119,3 +120,4 @@
 - name: Add firewall blocking all ports except 22
   shell: "ufw allow 22 && ufw enable --force enable"
   become: yes
+  ignore_errors: yes
