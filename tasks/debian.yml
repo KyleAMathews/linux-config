@@ -117,5 +117,5 @@
   become: yes
 
 - name: Add firewall blocking all ports except 22
-  shell: "ufw allow 22 && ufw enable"
+  shell: "ufw allow 22 && ufw enable --force enable"
   become: yes
