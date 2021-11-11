@@ -97,12 +97,14 @@
   shell:
     cmd: "make CMAKE_BUILD_TYPE=Release -j4"
     chdir: ~/programs/neovim
+  ignore_errors: yes
 
 - name: install neovim
   shell:
     cmd: "make install"
     chdir: /home/kyle/programs/neovim
   become: yes
+  ignore_errors: yes
 
 # Ubuntu is on an old version of go that doesn't have `go install` yet
 - name: install efm language server (for neovim)
