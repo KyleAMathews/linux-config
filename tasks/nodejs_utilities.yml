@@ -20,3 +20,6 @@
     - n
     - prisma
     - lerna
+
+- name: Configure NPM to install globals in home directory
+  shell: mkdir ~/.npm-global && npm config set prefix '~/.npm-global'
