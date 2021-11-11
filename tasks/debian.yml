@@ -55,6 +55,7 @@
     - zsh
     - ufw
     - glances # nice top-like tool 
+    - tmux
 
 - name: Ensures ./local/bin directory exists
   file: path=~/.local/bin state=directory
