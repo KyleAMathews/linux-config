@@ -126,5 +126,7 @@ export GATSBY_REPO_DIR=~/programs
 # Set local npm globals path.
 export PATH=~/.npm-global/bin:$PATH
 
+export SPANNER_EMULATOR_HOST=localhost:9010
+
 # Include file with sensitive env vars I don't want to version control.
 source ~/.zsh_env_vars
