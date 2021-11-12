@@ -1,14 +1,19 @@
 # - homebrew_tap:
     # name: Homebrew/homebrew-cask-versions
     
-# - homebrew_tap:
-    # name: Homebrew/homebrew-cask-fonts
+- homebrew_tap:
+    name: Homebrew/homebrew-cask-fonts
 
 # - name: Install xQuartz, necessary dependency for several homebrew recipes
   # homebrew_cask: name=xquartz state=present
 
 - name: Update Homebrew and Upgrade all homebrew packages
   homebrew: update_homebrew=yes upgrade_all=yes
+
+- name: install neovim
+  homebrew: name=neovim state=head
+  tags: install macosx
+  ignore_errors: true
 
 - name: install common utilities on Mac OSX with homebrew
   homebrew: name={{ item }} state=present
@@ -17,30 +22,32 @@
   with_items:
     # - ctags
     - the_silver_searcher
-    # - tmux
+    - tmux
     - wget
     - git
-    # - go
-    # - ssh-copy-id
+    - go
+    - ssh-copy-id
     # - htop-osx
     # - nmap
     - watch
-    # - node
+    - node
     # - neovim
-    # - coreutils
+    - coreutils
     # - ccat
-    # - fzf
+    - fzf
     # - tig
     # - fish
     # - mas # Install from Mac Store
     # - hub
     - z
+    - fd
+    - fzf
+    - ripgrep
 
-#- name: Install Fish
-#  command: echo "/usr/local/bin/fish" | sudo tee -a /etc/shells
-#- command: chsh -s /usr/local/bin/fish #make fish shell default
-#- command: curl -L https://get.oh-my.fish | fish
-#- command: omf install brew git-flow osx pure z
+
+- name: Install ohmyzsh
+  shell: 'sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
+  ignore_errors: yes
 
 - name: Install binaries with Homebrew cask
   homebrew_cask: name={{ item }} state=present
@@ -48,7 +55,7 @@
   ignore_errors: true
   with_items:
     # - alfred # Better launcher
-    - adobe-reader
+    - adobe-acrobat-reader
     # - android-file-transfer
     - discord
     # - dropbox
@@ -94,6 +101,7 @@
     #- skitch
     #- skype
     # - zoom
+    - kitty
 
 #- name: Install mac store apps
 #  command: mas install 668208984 # Giphy Capture
