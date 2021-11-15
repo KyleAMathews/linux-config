@@ -43,6 +43,9 @@
     - fd
     - fzf
     - ripgrep
+    - docker-compose
+    - efm-langserver # for neovim
+    - gh # github cli
 
 
 - name: Install ohmyzsh
@@ -72,7 +75,7 @@
     #- hipchat
     #- heroku-toolbelt
     - inkscape
-    # - iterm2
+    - iterm2
     - keepassxc
     - kindle
     #- lighttable
@@ -102,6 +105,7 @@
     #- skype
     # - zoom
     - kitty
+    - docker
 
 #- name: Install mac store apps
 #  command: mas install 668208984 # Giphy Capture
