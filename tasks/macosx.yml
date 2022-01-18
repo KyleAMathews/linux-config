@@ -46,6 +46,7 @@
     - docker-compose
     - efm-langserver # for neovim
     - gh # github cli
+    - git-extras
 
 
 - name: Install ohmyzsh
