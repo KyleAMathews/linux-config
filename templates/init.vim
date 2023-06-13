@@ -8,6 +8,9 @@ endif
 
 call plug#begin('~/.config/nvim/plugged')
 
+" surround plugin
+Plug 'https://tpope.io/vim/surround.git'
+
 " Color schemes
 Plug 'sjl/badwolf'
 Plug 'altercation/vim-colors-solarized'
@@ -22,9 +25,14 @@ Plug 'norcalli/nvim-colorizer.lua'
 " Make LSP diagnostic colors work better for older color schemes
 Plug 'folke/lsp-colors.nvim'
 
+" Add Trouble plugin for better display of diagnostic info
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'folke/trouble.nvim'
+
 " LSP
-Plug 'neovim/nvim-lspconfig'
 Plug 'anott03/nvim-lspinstall'
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvimdev/lspsaga.nvim'
 
 " LSP go-to definitions etc 
 " Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' }
@@ -34,7 +42,10 @@ Plug 'anott03/nvim-lspinstall'
 Plug 'hrsh7th/nvim-compe'
 
 " File finder
-Plug 'camspiers/snap'
+" Plug 'camspiers/snap'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
 " Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -201,7 +212,13 @@ endfunction
 vmap <leader>z <Esc>:%s/<c-r>=GetVisual()<cr>/
 
 "" LSPs
-lua require'lspconfig'.tsserver.setup{}
+" lua require'lspconfig'.tsserver.setup{}
+" lua <<EOF
+  " require('lspsaga').setup({})
+" EOF
+
+"" Setup tailwindcss lsp
+lua require'lspconfig'.tailwindcss.setup{}
 
 lua <<EOF
 require 'colorizer'.setup {
@@ -227,72 +244,89 @@ require'nvim-treesitter.configs'.setup {
 EOF
 
 "" Snap
-lua <<EOF
-local snap = require'snap'
+" lua <<EOF
+" local snap = require'snap'
 
-local fzf = snap.get'consumer.fzf'
-local limit = snap.get'consumer.limit'
-local producer_file = snap.get'producer.ripgrep.file'
-local producer_vimgrep = snap.get'producer.ripgrep.vimgrep'
-local producer_buffer = snap.get'producer.vim.buffer'
-local producer_oldfile = snap.get'producer.vim.oldfile'
-local select_file = snap.get'select.file'
-local select_vimgrep = snap.get'select.vimgrep'
-local preview_file = snap.get'preview.file'
-local preview_vimgrep = snap.get'preview.vimgrep'
+" local fzf = snap.get'consumer.fzf'
+" local limit = snap.get'consumer.limit'
+" local producer_file = snap.get'producer.ripgrep.file'
+" local producer_vimgrep = snap.get'producer.ripgrep.vimgrep'
+" local producer_buffer = snap.get'producer.vim.buffer'
+" local producer_oldfile = snap.get'producer.vim.oldfile'
+" local select_file = snap.get'select.file'
+" local select_vimgrep = snap.get'select.vimgrep'
+" local preview_file = snap.get'preview.file'
+" local preview_vimgrep = snap.get'preview.vimgrep'
 
-snap.register.map({'n'}, {'<Leader><Leader>'}, function ()
-  snap.run({
-    prompt = 'Files',
-    producer = fzf(producer_file),
-    select = select_file.select,
-    multiselect = select_file.multiselect,
-    views = {preview_file}
-  })
-end)
+" snap.register.map({'n'}, {'<Leader><Leader>'}, function ()
+  " snap.run({
+    " prompt = 'Files',
+    " producer = fzf(producer_file),
+    " select = select_file.select,
+    " multiselect = select_file.multiselect,
+    " views = {preview_file}
+  " })
+" end)
 
-snap.register.map({'n'}, {'<Leader>ff'}, function ()
-  snap.run({
-    prompt = 'Grep',
-    producer = limit(10000, producer_vimgrep),
-    select = select_vimgrep.select,
-    multiselect = select_vimgrep.multiselect,
-    views = {preview_vimgrep}
-  })
-end)
+" snap.register.map({'n'}, {'<Leader>ff'}, function ()
+  " snap.run({
+    " prompt = 'Grep',
+    " producer = limit(10000, producer_vimgrep),
+    " select = select_vimgrep.select,
+    " multiselect = select_vimgrep.multiselect,
+    " views = {preview_vimgrep}
+  " })
+" end)
 
-snap.register.map({'n'}, {'<Leader>fb'}, function ()
-  snap.run({
-    prompt = 'Buffers',
-    producer = fzf(producer_buffer),
-    select = select_file.select,
-    multiselect = select_file.multiselect,
-    views = {preview_file}
-  })
-end)
+" snap.register.map({'n'}, {'<Leader>fb'}, function ()
+  " snap.run({
+    " prompt = 'Buffers',
+    " producer = fzf(producer_buffer),
+    " select = select_file.select,
+    " multiselect = select_file.multiselect,
+    " views = {preview_file}
+  " })
+" end)
 
-snap.register.map({'n'}, {'<Leader>fo'}, function ()
-  snap.run({
-    prompt = 'Oldfiles',
-    producer = fzf(producer_oldfile),
-    select = select_file.select,
-    multiselect = select_file.multiselect,
-    views = {preview_file}
-  })
-end)
+" snap.register.map({'n'}, {'<Leader>fo'}, function ()
+  " snap.run({
+    " prompt = 'Oldfiles',
+    " producer = fzf(producer_oldfile),
+    " select = select_file.select,
+    " multiselect = select_file.multiselect,
+    " views = {preview_file}
+  " })
+" end)
 
-snap.register.map({'n'}, {'<Leader>m'}, function ()
-  snap.run({
-    prompt = 'Grep',
-    producer = limit(10000, producer_vimgrep),
-    select = select_vimgrep.select,
-    multiselect = select_vimgrep.multiselect,
-    initial_filter = vim.fn.expand('<cword>')
-  })
-end)
-EOF
+" snap.register.map({'n'}, {'<Leader>m'}, function ()
+  " snap.run({
+    " prompt = 'Grep',
+    " producer = limit(10000, producer_vimgrep),
+    " select = select_vimgrep.select,
+    " multiselect = select_vimgrep.multiselect,
+    " initial_filter = vim.fn.expand('<cword>')
+  " })
+" end)
+" EOF
+
+" Find files using Telescope command-line sugar.
+nnoremap <leader><leader> <cmd>Telescope find_files<cr>
+nnoremap <leader>ff <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
 
 lua << EOF
+-- To get fzf loaded and working with telescope, you need to call
+-- load_extension, somewhere after setup function:
+require('telescope').setup{
+  pickers = {
+    find_files = {
+      find_command = { "fd", "--hidden", "--type", "file" },
+    },
+  }
+}
+require('telescope').load_extension('fzf')
 
 local lspconfig = require'lspconfig'
 
@@ -307,8 +341,13 @@ local eslint = {
   formatStdin = true
 }
 
+local prettier = {
+ formatCommand = "prettier --stdin-filepath ${INPUT}",
+ formatStdin = true,
+}
+
 local function eslint_config_exists()
-  local eslintrc = vim.fn.glob(".eslintrc*", 0, 1)
+  local eslintrc = vim.fn.glob(".eslint*", 0, 1)
 
   if not vim.tbl_isempty(eslintrc) then
     return true
@@ -338,31 +377,45 @@ vim.lsp.handlers["textDocument/formatting"] = function(err, _, result, _, bufnr)
 end
 
 local on_attach = function(client)
-    if client.resolved_capabilities.document_formatting then
-        vim.api.nvim_command [[augroup Format]]
-        vim.api.nvim_command [[autocmd! * <buffer>]]
-        vim.api.nvim_command [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
-        vim.api.nvim_command [[augroup END]]
+    local au = vim.api.nvim_create_autocmd
+    local ag = vim.api.nvim_create_augroup
+    local clear_au = vim.api.nvim_clear_autocmds
+
+    -- Autoformat on save
+    local augroup = ag("LspFormatting", { clear = false })
+    if client.supports_method("textDocument/formatting") then
+        au("BufWritePre", {
+            clear_au({ group = augroup, buffer = bufnr }),
+            group = augroup,
+            buffer = bufnr,
+            callback = function()
+                vim.lsp.buf.format()
+            end,
+        })
     end
 end
 
 lspconfig.tsserver.setup {
     on_attach = function(client)
         -- Disable to avoid conflicts with prettier
-        client.resolved_capabilities.document_formatting = false
+        client.server_capabilities.documentFormattingProvider = false
         on_attach(client)
     end
 }
 
-lspconfig.efm.setup{
-  init_options = {documentFormatting = true},
+--[[
   on_attach = on_attach,
+  
   root_dir = function()
     if not eslint_config_exists() then
       return nil
     end
     return vim.fn.getcwd()
   end,
+  --]]
+lspconfig.efm.setup{
+  on_attach = on_attach,
+  init_options = {documentFormatting = true},
   settings = {
     rootMarkers = {".git/"},
     languages = {
@@ -373,6 +426,7 @@ lspconfig.efm.setup{
       ["typescript.tsx"] = {eslint},
       typescriptreact = {eslint},
       markdown = {eslint},
+      json = {prettier},
     },
   },
   filetypes = {
@@ -383,9 +437,20 @@ lspconfig.efm.setup{
     "typescript.tsx",
     "typescriptreact",
     "markdown",
+    "json",
   },
 }
 EOF
+
+" Setup Trouble plugin
+lua << EOF
+  require("trouble")--.setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+ -- }
+EOF
+
 
 " " Setup Navigator plugin
 " lua <<EOF
