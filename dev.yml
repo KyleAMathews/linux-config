@@ -24,9 +24,9 @@
 - hosts: Debian
   tasks:
     - include: tasks/dotfiles.yml
+    - include: tasks/vim.yml
     - include: tasks/debian.yml
     - include: tasks/nodejs_utilities.yml
-    - include: tasks/vim.yml
     - include: tasks/utilities.yml
     - include: tasks/python_utilities.yml
 

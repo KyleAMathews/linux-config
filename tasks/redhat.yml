@@ -9,4 +9,4 @@
       - vim-enhanced
       - smem
 
-- include: the_silver_searcher_from_source.yml
+# - include: the_silver_searcher_from_source.yml

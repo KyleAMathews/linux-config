@@ -1,8 +1,7 @@
-FROM ubuntu:14.04
+FROM ubuntu
 MAINTAINER Kyle Mathews "mathews.kyle@gmail.com"
 
-RUN apt-get update; apt-get install -y python-software-properties software-properties-common; apt-add-repository ppa:ansible/ansible;
-RUN apt-get update
+RUN apt-get update; apt-get install -y software-properties-common; apt-add-repository --yes --update ppa:ansible/ansible;
 RUN apt-get install ansible -y
 ADD . /opt/config
 WORKDIR /opt/config
