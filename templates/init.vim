@@ -67,6 +67,7 @@ Plug 'scrooloose/nerdcommenter'
 " Git/GitHub helpers
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
+Plug 'kepano/flexoki-neovim'
 
 " Markdown preview
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
@@ -74,9 +75,11 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 call plug#end()
 
 
-let g:gruvbox_contrast_dark = 'hard'
-colorscheme gruvbox
-set background=dark
+syntax enable
+" let g:gruvbox_contrast_dark = 'hard'
+" colorscheme gruvbox
+set background=light
+colorscheme flexoki-dark
 set colorcolumn=85 " Show a colored column at 85 characters.
 
 " Enable true color
@@ -87,7 +90,7 @@ if exists('+termguicolors')
 endif
 
 set number " show line numbers in the gutter.
-set relativenumber " numbers are relative to the cursor.
+" set relativenumber " numbers are relative to the cursor.
 set cursorline " highlight current line as easier to find it.
 set nowrap " Don't wrap long lines.
 set tabstop=2 " number of visual spaces per TAB
