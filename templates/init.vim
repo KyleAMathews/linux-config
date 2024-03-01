@@ -449,14 +449,14 @@ local on_attach = function(client)
     -- Autoformat on save
     local augroup = ag("LspFormatting", { clear = false })
     if client.supports_method("textDocument/formatting") then
-        au("InsertLeave", {
-            clear_au({ group = augroup, buffer = bufnr }),
-            group = augroup,
-            buffer = bufnr,
-            callback = function()
-                vim.lsp.buf.format()
-            end,
-        })
+      au({"InsertLeave", "BufWritePre"}, {
+          clear_au({ group = augroup, buffer = bufnr }),
+          group = augroup,
+          buffer = bufnr,
+          callback = function()
+              vim.lsp.buf.format()
+          end,
+      })
     end
 
     -- Show diagnostics in hoverbox if cursor pauses on underlined text
