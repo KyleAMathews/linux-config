@@ -15,6 +15,7 @@ Plug 'https://tpope.io/vim/surround.git'
 Plug 'sjl/badwolf'
 Plug 'altercation/vim-colors-solarized'
 Plug 'sts10/vim-mustard'
+Plug 'NLKNguyen/papercolor-theme'
 Plug 'fatih/molokai'
 Plug 'morhetz/gruvbox'
 Plug 'arcticicestudio/nord-vim'
@@ -60,6 +61,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " enable showing buffers in tab nav
 let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme='papercolor'
 
 " commenting code
 Plug 'scrooloose/nerdcommenter'
@@ -78,8 +80,8 @@ call plug#end()
 syntax enable
 " let g:gruvbox_contrast_dark = 'hard'
 " colorscheme gruvbox
-set background=light
-colorscheme flexoki-dark
+" set background=light
+colorscheme mustard
 set colorcolumn=85 " Show a colored column at 85 characters.
 
 " Enable true color
@@ -205,6 +207,7 @@ cmp.setup.cmdline({ '/', '?' }, {
   }
 })
 
+
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(':', {
   mapping = cmp.mapping.preset.cmdline(),
@@ -222,7 +225,12 @@ require('lspconfig')['tailwindcss'].setup {
   capabilities = capabilities
 }
 require('lspconfig')['tsserver'].setup {
-  capabilities = capabilities
+  capabilities = capabilities,
+  settings = {
+    implicitProjectConfiguration = { 
+      checkJs = true
+    },
+  }
 }
 require('lspconfig')['efm'].setup {
   capabilities = capabilities
@@ -441,7 +449,7 @@ local on_attach = function(client)
     -- Autoformat on save
     local augroup = ag("LspFormatting", { clear = false })
     if client.supports_method("textDocument/formatting") then
-        au("BufWritePre", {
+        au("InsertLeave", {
             clear_au({ group = augroup, buffer = bufnr }),
             group = augroup,
             buffer = bufnr,
@@ -466,6 +474,47 @@ local on_attach = function(client)
         vim.diagnostic.open_float(nil, opts)
       end
     })
+
+    -- Keyboard mappings for nvim lua commands
+    -- from https://github.com/YodaEmbedding/dotfiles/blob/master/nvim/.config/nvim/lua/mappings/_nvim_lsp.lua
+    local map = vim.keymap.set
+
+    -- Already handled by Telescope:
+    map("m", "gd",        vim.lsp.buf.definition)
+    map("m", "gi",        vim.lsp.buf.implementation)
+    map("m", "gr",        vim.lsp.buf.references)
+
+    -- Navigation
+    map("m", "gCi",       vim.lsp.buf.incoming_calls)
+    map("m", "gCo",       vim.lsp.buf.outgoing_calls)
+    map("m", "gD",        vim.lsp.buf.declaration)
+    map("m", "gS",        vim.lsp.buf.document_symbol)
+    map("m", "gt",        vim.lsp.buf.type_definition)
+    map("m", "gw",        vim.lsp.buf.workspace_symbol)
+
+    -- Documentation
+    map("i", "<C-k>",     vim.lsp.buf.signature_help)
+    -- map("n", "<C-k>",     vim.lsp.buf.signature_help)
+    map("n", "K",         vim.lsp.buf.hover)
+
+    -- Diagnostics
+    map("m", "[d",        vim.diagnostic.goto_prev)
+    map("m", "]d",        vim.diagnostic.goto_next)
+    map("m", "<space>z",  vim.diagnostic.setloclist)
+    map("m", "<space>e",  vim.diagnostic.open_float)
+
+    -- Refactoring
+    local ok, actions_preview = pcall(require, "actions-preview")
+    map("n", "<space>a",  ok and actions_preview.code_actions or vim.lsp.buf.code_action)
+    map("n", "<F2>",      vim.lsp.buf.rename)
+    map("n", "<F4>",      vim.lsp.buf.format)
+
+    -- Workspaces
+    -- map("n", "<space>wa", vim.lsp.buf.add_workspace_folder)
+    -- map("n", "<space>wl", function()
+    --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    -- end)
+    -- map("n", "<space>wr", vim.lsp.buf.remove_workspace_folder)
 end
 
 vim.diagnostic.config({
