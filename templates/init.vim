@@ -20,6 +20,9 @@ Plug 'fatih/molokai'
 Plug 'morhetz/gruvbox'
 Plug 'arcticicestudio/nord-vim'
 
+" Elxir
+Plug 'elixir-editors/vim-elixir'
+
 " highlight color values in code.
 Plug 'norcalli/nvim-colorizer.lua'
 
@@ -495,7 +498,7 @@ local on_attach = function(client)
     -- Documentation
     map("i", "<C-k>",     vim.lsp.buf.signature_help)
     -- map("n", "<C-k>",     vim.lsp.buf.signature_help)
-    map("n", "K",         vim.lsp.buf.hover)
+    map("n", "K",         vim.lsp.buf.hover, { noremap = true, silent = true })
 
     -- Diagnostics
     map("m", "[d",        vim.diagnostic.goto_prev)
