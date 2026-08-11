@@ -1,38 +1,58 @@
-- name: install .bash_profile
-  action: template src=templates/bash_profile dest=~/.bash_profile
+---
+- name: Ensure dotfile directories exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ ansible_env.HOME }}/.config/zsh"
+    - "{{ ansible_env.HOME }}/.config/ghostty"
+
+- name: Install shell and Git dotfiles
+  ansible.builtin.copy:
+    src: "templates/{{ item.src }}"
+    dest: "{{ ansible_env.HOME }}/{{ item.dest }}"
+    mode: "0644"
+    backup: true
+  loop:
+    - { src: bash_profile, dest: .bash_profile }
+    - { src: bashrc, dest: .bashrc }
+    - { src: zshrc, dest: .zshrc }
+    - { src: gitconfig, dest: .gitconfig }
+    - { src: gitignore_global, dest: .gitignore_global }
+    - { src: inputrc, dest: .inputrc }
   tags: dotfile
 
-- name: install .bashrc
-  action: template src=templates/bashrc dest=~/.bashrc
+- name: Install modular Zsh config
+  ansible.builtin.copy:
+    src: "templates/zsh/{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.config/zsh/{{ item }}"
+    mode: "0644"
+    backup: true
+  loop:
+    - aliases.zsh
+    - functions.zsh
+    - path.zsh
+    - tools.zsh
   tags: dotfile
 
-- name: install .zshrc
-  action: template src=templates/zshrc dest=~/.zshrc
+- name: Ensure the machine-local Git config exists
+  ansible.builtin.copy:
+    content: ""
+    dest: "{{ ansible_env.HOME }}/.gitconfig.local"
+    mode: "0600"
+    force: false
+
+- name: Install Ghostty config
+  ansible.builtin.copy:
+    src: templates/ghostty-config
+    dest: "{{ ansible_env.HOME }}/.config/ghostty/config"
+    mode: "0644"
+    backup: true
   tags: dotfile
 
-- name: install .gitconfig
-  action: template src=templates/gitconfig dest=~/.gitconfig
-  tags: dotfile
-
-
-- name: Ensures nvim config directory exists
-  file: path=~/.config/nvim/lua state=directory
-
-- name: install nvim init.vim
-  action: template src=templates/init.vim dest=~/.config/nvim/init.vim
-  tags: dotfile
-
-- name: install nvim lua config
-  action: template src=templates/lua.config dest=~/.config/nvim/lua/lua.config
-  tags: dotfile
-
-- name: install .gitignore_global
-  action: template src=templates/gitignore_global dest=~/.gitignore_global
-  tags: dotfile
-
-- name: install git auto-complete library
-  get_url: url=https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh dest=~/.git-prompt.sh
-
-- name: install .inputrc
-  action: template src=templates/inputrc dest=~/.inputrc
-  tags: dotfile
+- name: Install Git prompt helper for Bash
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+    dest: "{{ ansible_env.HOME }}/.git-prompt.sh"
+    mode: "0644"

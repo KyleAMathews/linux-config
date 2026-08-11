@@ -2,22 +2,27 @@
   name = Kyle Mathews
   email = mathews.kyle@gmail.com
 [color]
-  diff = auto
   status = auto
   branch = auto
+[color "diff"]
+  meta = blue
+  old = black red strike
+  new = black green italic
+  context = yellow bold
 [push]
-  default = tracking
+  default = simple
+  autoSetupRemote = true
+[init]
+  defaultBranch = main
 [alias]
   ai = add --interactive
   unstage = reset HEAD
 
-  # Committing
   c = commit -v
   cm = commit -m
   ca = commit --amend
   caa = commit -a --amend -C HEAD
 
-  # Shortcuts for commands
   s = status
   a = add
   co = checkout
@@ -27,10 +32,17 @@
   f = fetch
   p = push
   d = diff
-  dc = diff --cached
+  dc = diff --cached --color
   da = diff HEAD
   da2 = diff HEAD^
-	wtf = !git-wtf
 [core]
-	excludesfile = ~/.gitignore_global
+  excludesfile = ~/.gitignore_global
   editor = nvim
+[merge]
+  conflictstyle = diff3
+[diff]
+  colorMoved = default
+[rerere]
+  enabled = true
+[include]
+  path = ~/.gitconfig.local

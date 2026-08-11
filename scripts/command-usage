@@ -1,0 +1,53 @@
+#!/bin/zsh
+set -eu
+setopt extendedglob
+
+history_file=${1:-$HOME/.zsh_history}
+limit=${2:-50}
+
+if [[ ! -r "$history_file" ]]; then
+  print -u2 "cannot read history file: $history_file"
+  exit 1
+fi
+
+if [[ "$limit" != <1-> ]]; then
+  print -u2 "limit must be a positive integer"
+  exit 2
+fi
+
+typeset -A counts
+
+while IFS= read -r line || [[ -n "$line" ]]; do
+  if [[ "$line" == ': '*';'* ]]; then
+    line=${line#*;}
+  fi
+
+  words=(${(z)line})
+  (( ${#words} )) || continue
+
+  index=1
+  while (( index <= ${#words} )) && [[ ${words[$index]} == [A-Za-z_][A-Za-z0-9_]#=* ]]; do
+    (( index += 1 ))
+  done
+
+  while (( index <= ${#words} )) && [[ ${words[$index]} == (command|builtin|env|nohup|sudo|time) ]]; do
+    (( index += 1 ))
+    while (( index <= ${#words} )) && [[ ${words[$index]} == -* ]]; do
+      (( index += 1 ))
+    done
+    while (( index <= ${#words} )) && [[ ${words[$index]} == [A-Za-z_][A-Za-z0-9_]#=* ]]; do
+      (( index += 1 ))
+    done
+  done
+
+  (( index <= ${#words} )) || continue
+  command_name=${words[$index]:t}
+  [[ "$command_name" == [A-Za-z0-9_.:+][A-Za-z0-9_.:+-]# ]] || continue
+  (( ${#command_name} <= 64 )) || continue
+
+  counts[$command_name]=$(( ${counts[$command_name]:-0} + 1 ))
+done < "$history_file"
+
+for command_name in ${(k)counts}; do
+  printf '%8d  %s\n' "$counts[$command_name]" "$command_name"
+done | sort -nr | sed -n "1,${limit}p"

@@ -1,7 +1,17 @@
-- name: install z, a quick jump utility
-  git: repo=https://github.com/rupa/z.git dest=/opt/z
-  become: yes
+---
+- name: Install z directory jumper
+  ansible.builtin.git:
+    repo: https://github.com/rupa/z.git
+    dest: "{{ ansible_env.HOME }}/.z"
+    version: master
+    update: "{{ upgrade_system_packages | default(false) | bool }}"
   tags:
-    - z
     - install
+    - z
 
+- name: Install Oh My Zsh
+  ansible.builtin.git:
+    repo: https://github.com/ohmyzsh/ohmyzsh.git
+    dest: "{{ ansible_env.HOME }}/.oh-my-zsh"
+    version: master
+    update: "{{ upgrade_system_packages | default(false) | bool }}"

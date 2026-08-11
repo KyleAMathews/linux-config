@@ -1,0 +1,58 @@
+#!/bin/sh
+set -eu
+
+repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+cd "$repo_root"
+
+if [ "$(uname -s)" = Darwin ]; then
+  export LANG=en_US.UTF-8
+  export LC_ALL=en_US.UTF-8
+fi
+
+inventory=${INVENTORY:-inventory.example}
+playbook=${PLAYBOOK:-dev.yml}
+
+require_command() {
+  if ! command -v "$1" >/dev/null 2>&1; then
+    echo "missing required command: $1" >&2
+    exit 1
+  fi
+}
+
+require_command ansible-playbook
+require_command git
+
+echo "==> Ansible lint"
+if command -v ansible-lint >/dev/null 2>&1; then
+  ansible-lint .
+elif command -v uvx >/dev/null 2>&1; then
+  uvx ansible-lint .
+else
+  echo "missing required command: ansible-lint (or uvx as a fallback)" >&2
+  exit 1
+fi
+
+echo "==> Ansible syntax"
+ansible-playbook --inventory "$inventory" "$playbook" --syntax-check
+
+echo "==> Shell syntax"
+sh -n scripts/validate
+bash -n templates/bash_profile templates/bashrc
+if command -v zsh >/dev/null 2>&1; then
+  zsh -n scripts/audit-macos scripts/command-usage templates/zshrc templates/zsh/*.zsh
+fi
+
+echo "==> Git config"
+git config --file templates/gitconfig --list >/dev/null
+
+ghostty=/Applications/Ghostty.app/Contents/MacOS/ghostty
+if [ -x "$ghostty" ]; then
+  echo "==> Ghostty config"
+  "$ghostty" +validate-config --config-file=templates/ghostty-config
+fi
+
+echo "==> Diff whitespace"
+git diff --check
+git diff --cached --check
+
+echo "All checks passed."

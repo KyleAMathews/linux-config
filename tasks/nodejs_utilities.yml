@@ -1,28 +1,57 @@
-- name: Ensures ./npm-global directory exists
-  file: path=~/.npm-global state=directory
+---
+- name: Check for the n-managed Node.js installation
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.n/bin/node"
+  register: n_node
+  when: ansible_facts.os_family == "Darwin"
 
-- name: Configure NPM to install globals in home directory
-  shell: npm config set prefix '~/.npm-global'
+- name: Install the latest Node.js LTS release with n
+  ansible.builtin.command:
+    argv:
+      - n
+      - lts
+  environment:
+    N_PREFIX: "{{ ansible_env.HOME }}/.n"
+  changed_when: true
+  when:
+    - ansible_facts.os_family == "Darwin"
+    - not n_node.stat.exists or upgrade_system_packages | default(false) | bool
 
-- name: Install Node.js utilities
-  npm: name={{ item }} global=yes
-  become: yes
-  with_items:
-    - gatsby-cli
-    - gatsby-dev-cli
-    - jsonlint
-    - js-yaml
-    - eslint
-    - eslint-plugin-flowtype
-    - eslint-config-prettier
-    - eslint-config-google
-    - eslint-plugin-react
-    - prettier
-    - babel-eslint
-    - eslint-plugin-react
-    - yarn
-    - typescript-language-server
+- name: Set the npm installation paths
+  ansible.builtin.set_fact:
+    npm_executable: "{{ ansible_env.HOME + '/.n/bin/npm' if ansible_facts.os_family == 'Darwin' else 'npm' }}"
+    npm_prefix: "{{ ansible_env.HOME + '/.n' if ansible_facts.os_family == 'Darwin' else ansible_env.HOME + '/.npm-global' }}"
+
+- name: Ensure the user npm prefix exists
+  ansible.builtin.file:
+    path: "{{ npm_prefix }}"
+    state: directory
+    mode: "0755"
+  when: ansible_facts.os_family != "Darwin" or not ansible_check_mode or (n_node.stat.exists | default(false))
+
+- name: Configure npm to use the user-owned prefix
+  ansible.builtin.command:
+    argv:
+      - "{{ npm_executable }}"
+      - config
+      - set
+      - prefix
+      - "{{ npm_prefix }}"
+  changed_when: false
+  when: ansible_facts.os_family != "Darwin" or not ansible_check_mode or (n_node.stat.exists | default(false))
+
+- name: Install Node.js command-line utilities
+  community.general.npm:
+    name: "{{ item }}"
+    global: true
+    state: "{{ 'latest' if upgrade_system_packages | default(false) | bool else 'present' }}"
+    executable: "{{ npm_executable }}"
+  environment:
+    NPM_CONFIG_PREFIX: "{{ npm_prefix }}"
+  loop:
+    - "@fsouza/prettierd"
     - eslint_d
-    - n
-    # - prisma
-    - lerna
+    - pnpm
+    - prettier
+    - typescript
+  when: ansible_facts.os_family != "Darwin" or not ansible_check_mode or (n_node.stat.exists | default(false))

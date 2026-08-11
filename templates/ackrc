@@ -1,7 +1,0 @@
---type-add=js=.js,.json
---type-add=css=.sass,.less,.scss
---type-set=coffeescript=.coffee
---type-set=eco-template=.eco
---type-set=markdown=.markdown,.mdown,.md,.mkd,.mkdn
---type-add=html=.html
---type-add=drupal=.module,.info,.inc

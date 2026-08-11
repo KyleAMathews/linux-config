@@ -1,112 +1,112 @@
-# - name: Install Docker GPG key
-  # shell: "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg"
-  # become: yes
+---
+- name: Update apt metadata
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+  become: true
 
-# - name: Install docker engine repo
-  # shell: 'echo \
-  # "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu
-  # $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null'
+- name: Upgrade Debian packages when requested
+  ansible.builtin.apt:
+    upgrade: dist
+    update_cache: true
+  become: true
+  when: upgrade_system_packages | default(false) | bool
 
-- name: Update apt-get repo and cache
-  apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
-  become: yes
-
-- name: Upgrade all apt packages
-  apt: upgrade=dist force_apt_get=yes
-  become: yes
-
-- name: install common utilities on Debian machines
-  apt: pkg={{ item }} state=present
+- name: Install common Debian packages
+  ansible.builtin.apt:
+    name:
+      - autoconf
+      - automake
+      - build-essential
+      - ca-certificates
+      - cmake
+      - curl
+      - doxygen
+      - fd-find
+      - fzf
+      - gettext
+      - git
+      - glances
+      - golang-go
+      - g++
+      - httpie
+      - libpng-dev
+      - libtool
+      - libtool-bin
+      - luajit
+      - neovim
+      - ninja-build
+      - pkg-config
+      - python3
+      - python3-debian
+      - python3-pip
+      - ripgrep
+      - silversearcher-ag
+      - smem
+      - tmux
+      - ufw
+      - unzip
+      - zsh
+    state: present
+  become: true
   tags: install
-  become: yes
-  with_items:
-    - curl
-    - git
-    - build-essential
-    - tmux
-    - smem # Tool that does good job of figuring out "real" memory use of processes
-    - automake
-    - silversearcher-ag
-    - fzf
-    - fd-find
-    - ripgrep
-    - kitty
-    - luajit
-    - python
-    - python3-pip
-    - golang-go
-      # For building nvim
-    - ninja-build
-    - gettext
-    - libtool 
-    - libtool-bin
-    - autoconf
-    - automake 
-    - cmake 
-    - g++ 
-    - pkg-config 
-    - unzip 
-    - curl 
-    - doxygen
-    # - docker-ce
-    # - docker-ce-cli
-    # - containerd.io
-    - libpng-dev # required for some node packages to compile
-    - zsh
-    - ufw
-    - glances # nice top-like tool 
-    - tmux
 
-- name: Ensures ./local/bin directory exists
-  file: path=~/.local/bin state=directory
+- name: Ensure the local binary directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.local/bin"
+    state: directory
+    mode: "0755"
 
-- name: link fdfind binary to fd
-  shell: "ln -sf $(which fdfind) ~/.local/bin/fd"
+- name: Link the Debian fdfind binary as fd
+  ansible.builtin.file:
+    src: /usr/bin/fdfind
+    dest: "{{ ansible_env.HOME }}/.local/bin/fd"
+    state: link
 
-# - name: Add user to docker group
-  # become: yes
-  # shell: "groupadd docker && gpasswd -a ${USER} docker && service docker restart && newgrp docker"
-  # # This errors on subsquent runs
-  # ignore_errors: yes
-
-    # This requires a password so do it manually until want to figure out ansible's way
-# - name: Set zsh as the default shell
-  # shell: 'chsh -s $(which zsh)'
-
-- name: Install ohmyzsh
-  shell: 'sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
-  ignore_errors: yes
-
-##
-# node.js installation (latest stable instead of Ubuntu's out-of-date one)
-#
-- name: Node.js | Run the debian setup.
-  shell: "curl -fsSL https://deb.nodesource.com/setup_14.x | bash"
+- name: Add the NodeSource Node.js 24 repository
+  ansible.builtin.deb822_repository:
+    name: nodesource
+    types: deb
+    uris: https://deb.nodesource.com/node_24.x
+    suites: nodistro
+    components: main
+    signed_by: https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key
+    state: present
+  become: true
+  notify: Refresh apt metadata
   tags: nodejs
-  become: yes
 
-- name: Node.js | Install nodejs and npm
-  apt: pkg={{ item }} state=present
+- name: Apply NodeSource repository changes
+  ansible.builtin.meta: flush_handlers
   tags: nodejs
-  become: yes
-  with_items:
-    - nodejs
 
-- name: install neovim
-  shell:
-    cmd: "add-apt-repository ppa:neovim-ppa/unstable -y; apt-get update; apt-get install neovim"
-  ignore_errors: yes
+- name: Install Node.js 24 LTS
+  ansible.builtin.apt:
+    name: nodejs
+    state: present
+  become: true
+  tags: nodejs
 
-# Ubuntu is on an old version of go that doesn't have `go install` yet
-- name: install efm language server (for neovim)
-  shell: "go get github.com/mattn/efm-langserver"
+- name: Install efm language server
+  ansible.builtin.command:
+    argv:
+      - go
+      - install
+      - github.com/mattn/efm-langserver@latest
+  environment:
+    GOPATH: "{{ ansible_env.HOME }}/gocode"
+  changed_when: false
 
-# docker-compose
-# - name: Install docker-compose
-  # shell: "curl -L https://github.com/docker/compose/releases/download/v2.1.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose"
-  # become: yes
+- name: Allow SSH through ufw
+  community.general.ufw:
+    rule: allow
+    port: "22"
+    proto: tcp
+  become: true
+  when: configure_ufw | default(false) | bool
 
-- name: Add firewall blocking all ports except 22
-  shell: "ufw allow 22 && ufw enable --force enable"
-  become: yes
-  ignore_errors: yes
+- name: Enable ufw when requested
+  community.general.ufw:
+    state: enabled
+  become: true
+  when: configure_ufw | default(false) | bool

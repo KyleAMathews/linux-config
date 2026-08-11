@@ -1,40 +1,35 @@
 ---
-# This playbook deploys the dotfiles and utilities that I like to have around while
-# developing.
-- name: copy all dotfiles to the home directory and install commonly used utilities
-  # Have to run localhost seperate from other servers as need to ask for password
-  # locally but not remote and ansible can't handle this use case yet.
-  hosts: localhost
-  #hosts: all:!localhost
+- name: Install development tools and dotfiles
+  hosts: all
+  gather_facts: true
+
+  handlers:
+    - name: Refresh apt metadata
+      ansible.builtin.apt:
+        update_cache: true
+      become: true
 
   tasks:
-    - name: create group by operating system
-      action: group_by key={{ansible_os_family}}
-      tags: testing
+    - name: Install macOS packages and settings
+      ansible.builtin.include_tasks: tasks/macosx.yml
+      when: ansible_facts.os_family == "Darwin"
 
-- hosts: Darwin
-  tasks:
-    - include: tasks/macosx.yml
-    - include: tasks/dotfiles.yml
-    - include: tasks/nodejs_utilities.yml
-    - include: tasks/vim.yml
-    - include: tasks/utilities.yml
-    - include: tasks/python_utilities.yml
+    - name: Install Debian packages and settings
+      ansible.builtin.include_tasks: tasks/debian.yml
+      when: ansible_facts.os_family == "Debian"
 
-- hosts: Debian
-  tasks:
-    - include: tasks/dotfiles.yml
-    - include: tasks/vim.yml
-    - include: tasks/debian.yml
-    - include: tasks/nodejs_utilities.yml
-    - include: tasks/utilities.yml
-    - include: tasks/python_utilities.yml
+    - name: Install Red Hat packages
+      ansible.builtin.include_tasks: tasks/redhat.yml
+      when: ansible_facts.os_family == "RedHat"
 
-- hosts: RedHat
-  tasks:
-    - include: tasks/redhat.yml
-    - include: tasks/dotfiles.yml
-    - include: tasks/nodejs_utilities.yml
-    - include: tasks/vim.yml
-    - include: tasks/utilities.yml
-    - include: tasks/python_utilities.yml
+    - name: Install dotfiles
+      ansible.builtin.include_tasks: tasks/dotfiles.yml
+
+    - name: Install common utilities
+      ansible.builtin.include_tasks: tasks/utilities.yml
+
+    - name: Install Neovim package manager
+      ansible.builtin.include_tasks: tasks/vim.yml
+
+    - name: Install Node.js utilities
+      ansible.builtin.include_tasks: tasks/nodejs_utilities.yml

@@ -1,12 +1,15 @@
-- name: install common utilities on Fedora machines
-  yum: name={{ item }} state=present
-  tags: install
-  with_items:
-      - xz-devel
-      - tmux
+---
+- name: Install common packages on Red Hat machines
+  ansible.builtin.dnf:
+    name:
       - ctags
       - mosh
-      - vim-enhanced
+      - neovim
+      - nodejs
+      - npm
       - smem
-
-# - include: the_silver_searcher_from_source.yml
+      - tmux
+      - xz-devel
+    state: present
+  become: true
+  tags: install

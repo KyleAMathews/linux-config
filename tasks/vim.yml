@@ -1,3 +1,7 @@
- - name: Install vim-plug
-   shell: sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-
+---
+- name: Install personal Kickstart Neovim config
+  ansible.builtin.git:
+    repo: https://github.com/KyleAMathews/kickstart.nvim.git
+    dest: "{{ ansible_env.HOME }}/.config/nvim"
+    version: master
+    update: false

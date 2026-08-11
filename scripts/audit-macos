@@ -1,0 +1,92 @@
+#!/bin/zsh
+set -eu
+
+repo_root=${0:A:h:h}
+tmp_dir=$(mktemp -d)
+trap 'rm -rf -- "$tmp_dir"' EXIT
+
+extract_task_list() {
+  local task_name=$1
+  local file=$2
+  local list_key=$3
+
+  awk -v task_name="$task_name" -v list_key="$list_key" '
+    $0 == "- name: " task_name { in_task = 1; next }
+    in_task && /^- name:/ { exit }
+    in_task && $0 ~ "^[[:space:]]*" list_key ":$" { in_list = 1; next }
+    in_task && in_list && /^[[:space:]]+- / {
+      sub(/^[[:space:]]+- /, "")
+      gsub(/^"|"$/, "")
+      print
+      next
+    }
+    in_task && in_list && !/^      - / { exit }
+  ' "$file" | sort -u
+}
+
+print_drift() {
+  local label=$1
+  local desired=$2
+  local installed=$3
+
+  print "\n${label} missing from this Mac:"
+  comm -23 "$desired" "$installed" | sed 's/^/  /'
+
+  print "${label} installed but not managed here:"
+  comm -13 "$desired" "$installed" | sed 's/^/  /'
+}
+
+if [[ $(uname -s) != Darwin ]]; then
+  print -u2 "scripts/audit-macos only supports macOS"
+  exit 1
+fi
+
+if ! command -v brew >/dev/null 2>&1; then
+  print -u2 "Homebrew is not installed"
+  exit 1
+fi
+
+extract_task_list \
+  "Install common command-line tools with Homebrew" \
+  "$repo_root/tasks/macosx.yml" \
+  name > "$tmp_dir/formulae.desired"
+extract_task_list \
+  "Install macOS applications with Homebrew" \
+  "$repo_root/tasks/macosx.yml" \
+  name > "$tmp_dir/casks.desired"
+extract_task_list \
+  "Install Node.js command-line utilities" \
+  "$repo_root/tasks/nodejs_utilities.yml" \
+  loop > "$tmp_dir/npm.desired"
+
+brew leaves | sort -u > "$tmp_dir/formulae.installed"
+brew list --cask | sort -u > "$tmp_dir/casks.installed"
+
+print_drift "Homebrew formulae" "$tmp_dir/formulae.desired" "$tmp_dir/formulae.installed"
+print_drift "Homebrew casks" "$tmp_dir/casks.desired" "$tmp_dir/casks.installed"
+
+npm_command=${commands[npm]:-}
+node_command=${commands[node]:-}
+if [[ -x "$HOME/.n/bin/npm" && -x "$HOME/.n/bin/node" ]]; then
+  npm_command=$HOME/.n/bin/npm
+  node_command=$HOME/.n/bin/node
+fi
+
+if [[ -n "$npm_command" && -n "$node_command" ]]; then
+  "$npm_command" ls --global --depth=0 --json 2>/dev/null \
+    | "$node_command" -e '
+      let input = "";
+      process.stdin.on("data", chunk => input += chunk);
+      process.stdin.on("end", () => {
+        const packages = Object.keys(JSON.parse(input).dependencies || {});
+        process.stdout.write(packages.sort().join("\n") + "\n");
+      });
+    ' \
+    | sort -u > "$tmp_dir/npm.installed"
+  print_drift "Global npm packages" "$tmp_dir/npm.desired" "$tmp_dir/npm.installed"
+else
+  print "\nNode.js is absent; all tracked global npm packages are missing."
+  sed 's/^/  /' "$tmp_dir/npm.desired"
+fi
+
+print "\nRead-only audit complete. Run scripts/command-usage for shell command counts."
