@@ -1,7 +1,7 @@
 ---
 - name: Check for the n-managed Node.js installation
   ansible.builtin.stat:
-    path: "{{ ansible_env.HOME }}/.n/bin/node"
+    path: "{{ user_home }}/.n/bin/node"
   register: n_node
   when: ansible_facts.os_family == "Darwin"
 
@@ -11,7 +11,7 @@
       - n
       - lts
   environment:
-    N_PREFIX: "{{ ansible_env.HOME }}/.n"
+    N_PREFIX: "{{ user_home }}/.n"
   changed_when: true
   when:
     - ansible_facts.os_family == "Darwin"
@@ -19,8 +19,8 @@
 
 - name: Set the npm installation paths
   ansible.builtin.set_fact:
-    npm_executable: "{{ ansible_env.HOME + '/.n/bin/npm' if ansible_facts.os_family == 'Darwin' else 'npm' }}"
-    npm_prefix: "{{ ansible_env.HOME + '/.n' if ansible_facts.os_family == 'Darwin' else ansible_env.HOME + '/.npm-global' }}"
+    npm_executable: "{{ user_home + '/.n/bin/npm' if ansible_facts.os_family == 'Darwin' else 'npm' }}"
+    npm_prefix: "{{ user_home + '/.n' if ansible_facts.os_family == 'Darwin' else user_home + '/.npm-global' }}"
 
 - name: Ensure the user npm prefix exists
   ansible.builtin.file:
@@ -37,6 +37,8 @@
       - set
       - prefix
       - "{{ npm_prefix }}"
+  environment:
+    PATH: "{{ npm_prefix }}/bin:{{ ansible_facts['env']['PATH'] }}"
   changed_when: false
   when: ansible_facts.os_family != "Darwin" or not ansible_check_mode or (n_node.stat.exists | default(false))
 
@@ -48,6 +50,7 @@
     executable: "{{ npm_executable }}"
   environment:
     NPM_CONFIG_PREFIX: "{{ npm_prefix }}"
+    PATH: "{{ npm_prefix }}/bin:{{ ansible_facts['env']['PATH'] }}"
   loop:
     - "@fsouza/prettierd"
     - eslint_d

@@ -5,13 +5,13 @@
     state: directory
     mode: "0755"
   loop:
-    - "{{ ansible_env.HOME }}/.config/zsh"
-    - "{{ ansible_env.HOME }}/.config/ghostty"
+    - "{{ user_home }}/.config/zsh"
+    - "{{ user_home }}/.config/ghostty"
 
 - name: Install shell and Git dotfiles
   ansible.builtin.copy:
     src: "templates/{{ item.src }}"
-    dest: "{{ ansible_env.HOME }}/{{ item.dest }}"
+    dest: "{{ user_home }}/{{ item.dest }}"
     mode: "0644"
     backup: true
   loop:
@@ -26,7 +26,7 @@
 - name: Install modular Zsh config
   ansible.builtin.copy:
     src: "templates/zsh/{{ item }}"
-    dest: "{{ ansible_env.HOME }}/.config/zsh/{{ item }}"
+    dest: "{{ user_home }}/.config/zsh/{{ item }}"
     mode: "0644"
     backup: true
   loop:
@@ -39,14 +39,14 @@
 - name: Ensure the machine-local Git config exists
   ansible.builtin.copy:
     content: ""
-    dest: "{{ ansible_env.HOME }}/.gitconfig.local"
+    dest: "{{ user_home }}/.gitconfig.local"
     mode: "0600"
     force: false
 
 - name: Install Ghostty config
   ansible.builtin.copy:
     src: templates/ghostty-config
-    dest: "{{ ansible_env.HOME }}/.config/ghostty/config"
+    dest: "{{ user_home }}/.config/ghostty/config"
     mode: "0644"
     backup: true
   tags: dotfile
@@ -54,5 +54,5 @@
 - name: Install Git prompt helper for Bash
   ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
-    dest: "{{ ansible_env.HOME }}/.git-prompt.sh"
+    dest: "{{ user_home }}/.git-prompt.sh"
     mode: "0644"

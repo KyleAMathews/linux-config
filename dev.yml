@@ -3,6 +3,9 @@
   hosts: all
   gather_facts: true
 
+  vars:
+    user_home: "{{ ansible_facts['user_dir'] }}"
+
   handlers:
     - name: Refresh apt metadata
       ansible.builtin.apt:

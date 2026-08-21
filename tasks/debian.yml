@@ -53,14 +53,14 @@
 
 - name: Ensure the local binary directory exists
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/bin"
+    path: "{{ user_home }}/.local/bin"
     state: directory
     mode: "0755"
 
 - name: Link the Debian fdfind binary as fd
   ansible.builtin.file:
     src: /usr/bin/fdfind
-    dest: "{{ ansible_env.HOME }}/.local/bin/fd"
+    dest: "{{ user_home }}/.local/bin/fd"
     state: link
 
 - name: Add the NodeSource Node.js 24 repository
@@ -94,7 +94,7 @@
       - install
       - github.com/mattn/efm-langserver@latest
   environment:
-    GOPATH: "{{ ansible_env.HOME }}/gocode"
+    GOPATH: "{{ user_home }}/gocode"
   changed_when: false
 
 - name: Allow SSH through ufw

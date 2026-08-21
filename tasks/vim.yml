@@ -2,6 +2,6 @@
 - name: Install personal Kickstart Neovim config
   ansible.builtin.git:
     repo: https://github.com/KyleAMathews/kickstart.nvim.git
-    dest: "{{ ansible_env.HOME }}/.config/nvim"
+    dest: "{{ user_home }}/.config/nvim"
     version: master
     update: false
