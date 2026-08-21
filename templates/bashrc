@@ -18,8 +18,10 @@ if [ -f "$HOME/.git-prompt.sh" ]; then
   source "$HOME/.git-prompt.sh"
 fi
 
-if [ -f "$HOME/.z/z.sh" ]; then
-  source "$HOME/.z/z.sh"
+export _Z_DATA="$HOME/.local/state/z/data"
+
+if [ -f "$HOME/.local/share/z/z.sh" ]; then
+  source "$HOME/.local/share/z/z.sh"
 elif [ -f /opt/homebrew/etc/profile.d/z.sh ]; then
   source /opt/homebrew/etc/profile.d/z.sh
 fi

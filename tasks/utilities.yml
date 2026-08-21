@@ -1,8 +1,38 @@
 ---
+- name: Ensure z directories exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ user_home }}/.local/share"
+    - "{{ user_home }}/.local/state/z"
+
+- name: Check for the old z source checkout
+  ansible.builtin.stat:
+    path: "{{ user_home }}/.z/.git"
+  register: old_z_checkout
+
+- name: Check for the new z source checkout
+  ansible.builtin.stat:
+    path: "{{ user_home }}/.local/share/z"
+  register: new_z_checkout
+
+- name: Move the old z source checkout
+  ansible.builtin.command:
+    argv:
+      - mv
+      - "{{ user_home }}/.z"
+      - "{{ user_home }}/.local/share/z"
+    creates: "{{ user_home }}/.local/share/z/.git"
+  when:
+    - old_z_checkout.stat.exists
+    - not new_z_checkout.stat.exists
+
 - name: Install z directory jumper
   ansible.builtin.git:
     repo: https://github.com/rupa/z.git
-    dest: "{{ user_home }}/.z"
+    dest: "{{ user_home }}/.local/share/z"
     version: master
     update: "{{ upgrade_system_packages | default(false) | bool }}"
   tags:

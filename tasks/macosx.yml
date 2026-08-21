@@ -21,6 +21,7 @@
       - pandoc
       - ripgrep
       - ssh-copy-id
+      - the_silver_searcher
       - tmux
       - typst
       - watch
