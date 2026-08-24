@@ -24,6 +24,7 @@
       - the_silver_searcher
       - tmux
       - typst
+      - uv
       - watch
       - wget
     state: present
