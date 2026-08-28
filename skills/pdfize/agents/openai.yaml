@@ -1,0 +1,4 @@
+interface:
+  display_name: "PDFize"
+  short_description: "Convert Markdown to PDF and open it"
+  default_prompt: "Use $pdfize to convert the specified Markdown file to PDF and open it."

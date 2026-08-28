@@ -28,6 +28,10 @@
     - name: Install dotfiles
       ansible.builtin.include_tasks: tasks/dotfiles.yml
 
+    - name: Install personal agent skills
+      ansible.builtin.include_tasks: tasks/agent_skills.yml
+      tags: agent-skills
+
     - name: Install common utilities
       ansible.builtin.include_tasks: tasks/utilities.yml
 

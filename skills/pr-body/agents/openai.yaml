@@ -1,0 +1,4 @@
+interface:
+  display_name: "PR Body"
+  short_description: "Create or update a structured PR body"
+  default_prompt: "Use $pr-body to create or update the pull request with a well-structured body."

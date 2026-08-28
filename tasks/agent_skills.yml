@@ -1,0 +1,48 @@
+---
+- name: Install personal agent skills on the controller
+  when: ansible_connection | default("ssh") == "local"
+  vars:
+    personal_agent_skills:
+      - bakery-rubric
+      - changeset
+      - ci-loop
+      - codex
+      - dialectic-press
+      - done
+      - evaluate-review
+      - field-lab
+      - gisthost
+      - misfits-survey
+      - pdfize
+      - pr-body
+      - prep-pr
+      - restaurant-rubric
+      - surf-cli
+      - tanstack-solid-live-query
+      - title
+      - worktree
+  tags: agent-skills
+  block:
+    - name: Ensure personal agent config directories exist
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: "0700"
+      loop:
+        - "{{ user_home }}/.agents"
+        - "{{ user_home }}/.claude/skills"
+
+    - name: Link the shared ChatGPT and Codex skill directory
+      ansible.builtin.file:
+        src: "{{ playbook_dir }}/skills"
+        dest: "{{ user_home }}/.agents/skills"
+        state: link
+        force: true
+
+    - name: Link personal skills for Claude
+      ansible.builtin.file:
+        src: "{{ playbook_dir }}/skills/{{ item }}"
+        dest: "{{ user_home }}/.claude/skills/{{ item }}"
+        state: link
+        force: true
+      loop: "{{ personal_agent_skills }}"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Session Summary"
+  short_description: "Capture decisions and follow-up context"
+  default_prompt: "Use $done to write an end-of-session summary for this work."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Set Title"
+  short_description: "Set a contextual Ghostty tab title"
+  default_prompt: "Use $title to set a concise Ghostty tab title for the current work."

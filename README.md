@@ -44,6 +44,8 @@ The tracked `.zshrc` loads small files from `~/.config/zsh`. Put machine-specifi
 
 Neovim config comes from [KyleAMathews/kickstart.nvim](https://github.com/KyleAMathews/kickstart.nvim). Commit changes in that repo before setting up another machine; this playbook clones it but does not overwrite or update an existing checkout.
 
+Personal agent skills live in `skills/`. On a local install, the playbook links that directory to `~/.agents/skills` for ChatGPT and Codex, then links each skill into `~/.claude/skills` for Claude. Edit the tracked copy rather than either global path. A few entries link to skills maintained in sibling repositories under `~/programs`; those links become active when the sibling checkout exists.
+
 The tracked Git config includes `~/.gitconfig.local`. To enable commit signing, copy the example and edit the public-key path:
 
 ```sh

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Gist Host"
+  short_description: "Publish an HTML file with Gist Host"
+  default_prompt: "Use $gisthost to publish the specified HTML file through Gist Host."

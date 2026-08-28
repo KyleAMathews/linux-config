@@ -1,0 +1,4 @@
+interface:
+  display_name: "Changeset"
+  short_description: "Create a changeset for the current branch"
+  default_prompt: "Use $changeset to document the current branch with an appropriate changeset."

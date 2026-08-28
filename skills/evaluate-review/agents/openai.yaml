@@ -1,0 +1,4 @@
+interface:
+  display_name: "Evaluate Review"
+  short_description: "Verify an external review without losing findings"
+  default_prompt: "Use $evaluate-review to verify this external review, preserve every finding in a ledger, and run the final loss audit."

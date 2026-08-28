@@ -1,0 +1,4 @@
+interface:
+  display_name: "CI Loop"
+  short_description: "Monitor and resolve CI failures"
+  default_prompt: "Use $ci-loop to monitor this branch or pull request until CI is green."

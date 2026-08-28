@@ -45,6 +45,24 @@ fi
 echo "==> Git config"
 git config --file templates/gitconfig --list >/dev/null
 
+echo "==> Agent skills"
+for skill_dir in skills/*; do
+  if [ -L "$skill_dir" ]; then
+    continue
+  fi
+
+  skill_file="$skill_dir/SKILL.md"
+  if [ ! -f "$skill_file" ]; then
+    echo "missing skill entrypoint: $skill_file" >&2
+    exit 1
+  fi
+
+  if ! grep -q '^name:' "$skill_file" || ! grep -q '^description:' "$skill_file"; then
+    echo "missing required skill frontmatter: $skill_file" >&2
+    exit 1
+  fi
+done
+
 ghostty=/Applications/Ghostty.app/Contents/MacOS/ghostty
 if [ -x "$ghostty" ]; then
   echo "==> Ghostty config"

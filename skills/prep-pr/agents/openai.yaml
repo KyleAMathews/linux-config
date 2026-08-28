@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prepare PR"
+  short_description: "Review, simplify, and prepare a PR"
+  default_prompt: "Use $prep-pr to review and simplify this branch, then prepare its changeset and pull request."
