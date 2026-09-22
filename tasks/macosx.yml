@@ -23,6 +23,7 @@
       - ssh-copy-id
       - the_silver_searcher
       - tmux
+      - tree-sitter-cli
       - typst
       - uv
       - watch

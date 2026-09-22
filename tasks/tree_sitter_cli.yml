@@ -1,0 +1,38 @@
+---
+# The tree-sitter CLI is required by nvim-treesitter's `main` branch to compile
+# parsers. There is no reliable apt/dnf package, so install the official
+# prebuilt binary release into ~/.local/bin. (On macOS this comes from the
+# `tree-sitter-cli` Homebrew formula instead; see tasks/macosx.yml.)
+- name: Ensure the local binary directory exists
+  ansible.builtin.file:
+    path: "{{ user_home }}/.local/bin"
+    state: directory
+    mode: "0755"
+
+- name: Check for an existing tree-sitter CLI
+  ansible.builtin.command: "{{ user_home }}/.local/bin/tree-sitter --version"
+  register: tree_sitter_cli
+  changed_when: false
+  failed_when: false
+
+- name: Install the tree-sitter CLI from the official release
+  when: tree_sitter_cli.rc != 0
+  vars:
+    tree_sitter_arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else 'x64' }}"
+  block:
+    - name: Download the tree-sitter CLI release archive
+      ansible.builtin.get_url:
+        url: "https://github.com/tree-sitter/tree-sitter/releases/latest/download/tree-sitter-linux-{{ tree_sitter_arch }}.gz"
+        dest: /tmp/tree-sitter.gz
+        mode: "0644"
+        force: true
+
+    - name: Decompress the tree-sitter CLI into place
+      ansible.builtin.shell: "gunzip -c /tmp/tree-sitter.gz > {{ user_home }}/.local/bin/tree-sitter"
+      args:
+        creates: "{{ user_home }}/.local/bin/tree-sitter"
+
+    - name: Make the tree-sitter CLI executable
+      ansible.builtin.file:
+        path: "{{ user_home }}/.local/bin/tree-sitter"
+        mode: "0755"

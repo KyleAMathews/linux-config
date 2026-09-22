@@ -5,3 +5,10 @@
     dest: "{{ user_home }}/.config/nvim"
     version: master
     update: false
+
+# nvim-treesitter's `main` branch needs the tree-sitter CLI to compile parsers.
+# macOS gets it from the Homebrew list in tasks/macosx.yml; other platforms use
+# the prebuilt binary release.
+- name: Install the tree-sitter CLI (non-macOS)
+  ansible.builtin.include_tasks: tasks/tree_sitter_cli.yml
+  when: ansible_facts.os_family != "Darwin"
