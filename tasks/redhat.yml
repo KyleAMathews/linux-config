@@ -2,6 +2,7 @@
 - name: Install common packages on Red Hat machines
   ansible.builtin.dnf:
     name:
+      - atuin
       - ctags
       - mosh
       - neovim

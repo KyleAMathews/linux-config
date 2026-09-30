@@ -15,6 +15,7 @@
 - name: Install common Debian packages
   ansible.builtin.apt:
     name:
+      - atuin
       - autoconf
       - automake
       - build-essential

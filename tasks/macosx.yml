@@ -8,6 +8,7 @@
   community.general.homebrew:
     name:
       - ansible-lint
+      - atuin
       - coreutils
       - fd
       - fzf
@@ -44,20 +45,14 @@
       - font-inconsolata-nerd-font
       - ghostty
       - gimp
-      - google-chrome
       - google-chrome@canary
       - handbrake-app
       - inkscape
-      - iterm2
-      - keepassxc
-      - kindle
       - kitty
       - meld
-      - ngrok
       - scapple
       - spotify
       - vlc
-      - wireshark-app
     state: present
   tags:
     - install

@@ -1,6 +1,6 @@
 ---
 name: ci-loop
-description: Monitor pull request or branch CI until it is green, resolving straightforward failures when safe. Use for pending checks, failed workflows, recurring status checks, or requests to babysit CI.
+description: Monitor pull request or branch CI until it is green, evaluate new CodeRabbit reviews, and resolve straightforward failures or findings when safe. Use for pending checks, failed workflows, recurring status checks, or requests to babysit CI.
 ---
 
 # ci-loop
