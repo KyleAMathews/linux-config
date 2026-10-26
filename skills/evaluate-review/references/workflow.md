@@ -94,6 +94,52 @@ routine fixes already authorized. An approved product limitation is
 `accepted-design`, not deferred implementation. In review-only work, identify
 needed repairs without expanding permission to edit; they remain open.
 
+## Bring only law changes to the user
+
+Classify every confirmed behavioral finding as an enforcement gap or a law
+change. Only law changes need the user.
+
+**Enforcement gap: fix it, do not ask.** The accepted law is right, but the
+oracle failed to enforce it or production violates it. The cause is one of:
+
+- a missing generator dimension;
+- a missing history or legal timing;
+- a missing observation or checkpoint;
+- an unreached production path or reach state;
+- a driver seam;
+- a false-green assertion;
+- a production defect against a law that the contract, the documented prior
+  behavior, or an earlier maintainer decision already states.
+
+Always improve the oracle so it shows the gap on unchanged production (RED),
+then repair production, then show GREEN and a hostile mutant. This is
+authorized work. Do not offer it as an option, and do not ask "add it or
+skip?" about it. Report it afterward as completed work.
+
+**Law change: present it and wait for a decision.** The finding questions what
+we promise. Each of these is a law change:
+
+- a proposed new law;
+- a revision or narrowing of an existing law;
+- a promise about a new checkpoint or observation, such as intermediate
+  publications;
+- an obligation on a collaborator, such as a source or adapter;
+- a conflict between two laws;
+- a rule that has no authority yet;
+- contract text that disagrees with an earlier decision.
+
+Present each law change with:
+
+- the candidate law and its rival;
+- the evidence that raised it;
+- what each choice would change for users;
+- your recommendation.
+
+Proceed with the enforcement work that does not depend on the decision.
+
+A finding can contain both kinds. Split it: fix the enforcement part now, and
+present only the law question.
+
 ## Evaluation criteria
 
 ### Reviewer quality
@@ -345,9 +391,10 @@ known reachable in-scope counterexample may not.
 
 ## Output format
 
-For a review involving an oracle or generated-history test, lead with what the
-review taught us about the laws. Then give the lossless item ledger and reviewer
-assessment. For a review without an oracle boundary, keep the item-led format
+For a review involving an oracle or generated-history test, lead with the law
+changes that need a decision (see "Bring only law changes to the user"). Report
+enforcement gaps as work done or in progress, with their RED and GREEN results,
+not as questions. Then give the lossless item ledger and reviewer assessment. For a review without an oracle boundary, keep the item-led format
 and omit the law table when no behavioral law applies. Match detail to the
 number of distinct laws, not the number of comments.
 
