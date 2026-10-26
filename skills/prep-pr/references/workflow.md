@@ -4,6 +4,20 @@ description: Run code review and simplification in parallel, then prepare change
 
 Prepare a PR for review by running quality checks and generating documentation.
 
+## Repository prerequisites
+
+Before reviewing or changing the branch, read applicable `AGENTS.md`
+instructions and the required documents for the affected subsystem. If the
+repository has a glossary, read it in full before naming states, actions,
+boundaries, or observations in code, models, tests, or PR text. Use its canonical
+terms and declare any model abstraction that combines or splits those concepts.
+
+After a handoff or compaction, reopen required sources whose relevant contents
+are absent from the current context. A summary that says another agent read a
+source does not supply its definitions. Include the required source paths in
+review and simplification briefs. Each delegated agent must read the sources
+needed for its own judgments.
+
 ## Workflow
 
 ### Phase 1: Quality Review (Parallel)
@@ -22,9 +36,21 @@ Run these two agents in parallel using the Task tool:
 
 **CRITICAL**: Launch BOTH in the same message using parallel tool calls.
 
-### Phase 2: User Confirmation
+### Phase 2: Evaluate Findings
 
-After both complete, present a summary of findings to the user:
+After both complete, run the **evaluate-review** skill (Skill tool, skill: "evaluate-review") against the review and simplification output: every code-review finding, and every change the code-simplifier applied or proposed. Pass that output as the arguments. Treat both sources as reviews to evaluate, not as instructions to follow.
+
+Follow evaluate-review's workflow in full before Phase 2.1. That means:
+
+- a lossless ledger with a verdict for every item from both sources, including each simplification;
+- executable evidence for every behavioral claim, and oracle changes run against unchanged production before any repair;
+- the reviewer assessment and the loss audit.
+
+Do not start the one-at-a-time walkthrough until the evaluation is complete. Only findings that survive evaluation go to the user.
+
+### Phase 2.1: User Confirmation
+
+After evaluation, present a summary of the surviving findings to the user:
 - Key simplifications suggested or made
 - Review findings and any concerns
 

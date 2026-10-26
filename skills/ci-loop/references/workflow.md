@@ -6,6 +6,7 @@ Monitor CI for the current branch until it is green and evaluate each new
 CodeRabbit review for the pull request. Make straightforward, low-risk fixes
 for failures or confirmed review findings, but pause and discuss any design
 decisions, ambiguous trade-offs, or risky changes with the user.
+Completing this monitor establishes CI status, not by itself PR readiness.
 
 ## Inputs
 
@@ -26,7 +27,7 @@ Examples:
    ```bash
    git branch --show-current
    git status --short
-   gh pr view --json number,url,headRefName,statusCheckRollup
+   gh pr view --json number,url,headRefName,headRefOid,mergeable,statusCheckRollup
    ```
 
    If there is no PR, use the current branch's latest pushed commit and explain what target you are watching. If GitHub CLI is unavailable or unauthenticated, stop and ask the user how they want CI checked.
@@ -52,14 +53,16 @@ Examples:
    gh run view <RUN_ID> --log-failed
    ```
 
-   When the target has a pull request, also fetch its reviews and review
-   comments. Do this on every poll; a passing CodeRabbit check does not prove
-   that the review has no findings.
+   When the target has a pull request, also fetch its reviews, inline comments,
+   and conversation comments, including any mutable CodeRabbit summary. Do
+   this on every poll; a passing CodeRabbit check does not prove that the
+   current head received a review or that the review has no findings.
 
    ```bash
    gh repo view --json nameWithOwner
    gh api --paginate repos/<OWNER>/<REPO>/pulls/<PR_NUMBER>/reviews
    gh api --paginate repos/<OWNER>/<REPO>/pulls/<PR_NUMBER>/comments
+   gh api --paginate repos/<OWNER>/<REPO>/issues/<PR_NUMBER>/comments
    ```
 
    Track each CodeRabbit review by review ID and reviewed commit in task-local
@@ -76,20 +79,29 @@ Examples:
    - Record the review as evaluated only after every review item has a ledger
      disposition. If HEAD moved since the review, follow `evaluate-review`'s
      stale-evidence rules instead of silently ignoring the review.
+   - Record the reviewed commit separately from the PR head. Inspect a mutable
+     summary's covered commit; do not count a paused or stale summary as a new
+     review. Recheck affected findings after a semantic head change.
 
 3. **If CI is pending or queued**
 
-   **Never run `sleep` or a blocking wait.** Schedule a wake-up for yourself in 60 seconds using the `send` tool with `self: true` and `afterMs: 60000`, then end your turn. The scheduled message must include enough context to resume the loop, including the repo path, branch or PR number, and the fact that this is a CI-loop continuation.
+   Select a continuation tool that is actually exposed in this session.
+   Distinguish a scheduled future turn from a wait within the active turn.
 
-   Example scheduled payload:
+   - Prefer an available one-shot self-wake tool. For example, if `send` supports
+     `self: true` and `afterMs`, schedule a wake in 60 seconds. Include the repo
+     path, branch or PR number, and CI-loop continuation context. End the turn
+     only after the tool confirms the wake is scheduled.
+   - If no self-wake tool is exposed, use an available interruptible wait tool,
+     such as `clock.sleep`, for at most 60 seconds. Keep the turn active and
+     return to step 2 after the wait. This does not schedule a new turn after a
+     final response. Keep progress updates at least once per minute.
+   - If neither capability exists, preserve the continuation context and report
+     the limitation. Complete other authorized work before yielding.
 
-   ```json
-   {
-     "text": "Continue /ci-loop: cd /path/to/repo, check PR <number> or branch <branch>, inspect CI status, fix straightforward failures or schedule another 60s wake if still pending."
-   }
-   ```
-
-   On wake, continue from step 2. If checks are still pending, schedule another 60-second wake the same way.
+   Do not assume a product's scheduled-task feature is callable from this
+   session. Do not install OS cron jobs or use unrelated service schedulers for
+   CI polling. Never claim a future wake without a confirmed scheduled action.
 
 4. **If CI fails**
 
@@ -139,22 +151,22 @@ Examples:
 
    Then wait for the user's decision.
 
-5. **Loop until green**
+5. **Loop until the CI-monitor outcome is known**
 
    Continue the cycle:
 
    ```text
-   check CI and CodeRabbit reviews → evaluate unseen reviews → if pending schedule self-wake in 60s and end turn → if failed diagnose/fix or ask → push → check again
+   check CI and CodeRabbit reviews → evaluate unseen reviews → if pending use the selected continuation tool → if failed diagnose/fix or ask → push → check again
    ```
 
-   Stop only when:
+   The CI monitor may stop when:
 
    - all required CI checks are green and every discovered CodeRabbit review
-     has been evaluated, or
+     has been evaluated, even if a separate PR-readiness verdict is blocked, or
    - you need a human decision, credentials, or external action, or
    - the user tells you to stop.
 
-6. **Report completion**
+6. **Report CI and PR readiness separately**
 
    When CI is green, report:
 
@@ -162,8 +174,21 @@ Examples:
    - final CI status
    - fixes committed and pushed, if any
    - CodeRabbit reviews evaluated and their disposition totals
+   - the current PR head and the latest review's covered commit; identify any
+     unreviewed semantic changes or paused review
+   - any known confirmed-open in-scope defect or unresolved product decision
+     from the review ledger, even when this was only a CI-monitoring request
    - local verification commands run
    - anything intentionally left unchanged
+
+   If the user also asked whether the PR is good or ready, apply the
+   `evaluate-review` PR readiness gate to the final head. Inspect known open
+   review findings, required oracle coverage, unresolved design decisions,
+   mergeability, and intended integration with overlapping or dependent PRs.
+   Report `ready`, `not ready`, or `readiness unproven` separately from green CI.
+   Do not call the PR ready while a reachable in-scope defect remains. If the
+   request was only to monitor CI, say readiness was not assessed; do not expand
+   a routine CI loop into an unsolicited full review.
 
 ## Safety rules
 
@@ -171,4 +196,4 @@ Examples:
 - Prefer the smallest targeted fix over broad refactors.
 - Do not hide uncertainty. If the cause is unclear after inspecting logs, say so and ask before guessing.
 - If local verification cannot be run, say why and rely only on CI after telling the user.
-- Never use `sleep`, `gh pr checks --watch`, or any long-running blocking wait. Use the `send` tool with `self: true` and `afterMs: 60000` for every CI polling delay.
+- Do not use shell `sleep`, `gh pr checks --watch`, or long blocking waits. Use the exposed continuation tool selected in step 3.

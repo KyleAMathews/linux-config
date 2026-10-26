@@ -12,6 +12,15 @@ verification, and file lists are supporting material, not the main narrative.
 Do not force every PR into one template. Choose an explanatory form that fits
 the actual shape of the change.
 
+## Repository terminology
+
+Follow applicable `AGENTS.md` reading requirements before drafting. When a
+repository glossary exists, read it in full before naming subsystem states,
+actions, boundaries, or observations. Reuse its canonical terms in the PR body
+and preserve any declared model abstractions. After a handoff or compaction,
+reopen required sources whose relevant contents are absent from the current
+context. A summary that another agent read them is not a substitute.
+
 ## Gather the source material
 
 1. Fetch the latest target branch, normally with `git fetch origin main`.
