@@ -1,6 +1,6 @@
 ---
 name: misfits-survey
-description: Use when gathering a bounded signal inventory memo for an open source repository so maintainers can dispatch follow-up investigation work
+description: Gather a bounded signal inventory for an open source repository; when requested, investigate selected clusters through accepted laws and independent oracles.
 ---
 
 # Misfits Survey — Signal Inventory Memo
@@ -9,7 +9,9 @@ Run a bounded signal inventory for an open source repository or repo area.
 
 The output is a **short maintainer memo** that gathers available signals into one place. Maintainers should be able to point humans or agents at the memo and say: “read this, then investigate cluster X.”
 
-This skill is **not** a design-analysis workflow. It does not solve clusters, propose architecture, run a validation ceremony, or decide issue closure.
+Default inventory mode does not solve clusters, propose architecture, run a validation ceremony, or decide issue closure.
+
+When the user requests deeper investigation of selected clusters or standalone items, read [reference/cluster-investigation.md](reference/cluster-investigation.md) and use that optional workflow. Keep its reports separate from the signal inventory. Start in `investigate` mode unless production repairs are authorized. Do not restart inventory phases merely to continue an existing survey.
 
 ## Operating Principle
 
@@ -21,7 +23,7 @@ The maintainer uses the memo to choose where to send follow-up work.
 
 Agent output is testimony, not evidence. Every substantive claim needs a citation token: issue/PR URL, file path, command output, exported message reference, or maintainer statement.
 
-## Hard Boundaries
+## Inventory Boundaries
 
 Do:
 
@@ -68,7 +70,7 @@ Cluster entries include only:
 
 No recommendations or next-step prompts inside cluster entries.
 
-## Phases
+## Inventory Phases
 
 1. Read `reference/phase-0-orientation-and-living-document.md`, execute it, then stop for explicit maintainer permission.
 2. Read `reference/phase-1-positive-design-summary.md`, execute it, then stop for explicit maintainer permission.
@@ -81,6 +83,8 @@ Phases 6–9 from older versions are intentionally obsolete and must not be run 
 
 ## First Action
 
-If the user supplied arguments, treat them as the repo, repo area, package, API, release, issue set, PR set, or source boundary to inventory. If not, ask for the inventory boundary.
+For an explicit deeper-investigation request, use the optional reference above and do not enter the inventory phases.
 
-Then begin Phase 0 by reading `reference/phase-0-orientation-and-living-document.md`.
+For an inventory request, if the user supplied arguments, treat them as the repo, repo area, package, API, release, issue set, PR set, or source boundary to inventory. If not, ask for the inventory boundary.
+
+For that inventory request, begin Phase 0 by reading `reference/phase-0-orientation-and-living-document.md`.

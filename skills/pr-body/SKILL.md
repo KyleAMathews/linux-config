@@ -8,5 +8,7 @@ description: Create or update the current branch's pull request with a structure
 Before you draft or revise a PR body, read the installed `asd-ste100` skill in
 full. Use its STE-flavored mode for all PR body text. Run its structural linter
 on the final draft, and correct all hard violations before you update the PR.
+Also run `python3 scripts/check_body.py <draft-file>` from this skill folder
+to reject prose newlines that GitHub renders as visible line breaks.
 
 Read [references/workflow.md](references/workflow.md) in full, then follow those instructions exactly for the current request.

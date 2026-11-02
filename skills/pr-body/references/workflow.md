@@ -126,6 +126,25 @@ that point, and verify the sample against the final code or tests. Place it wher
 it first improves understanding; do not automatically bury it in implementation
 details. Omit code when prose is clearer.
 
+## Format for GitHub PR rendering
+
+GitHub renders a single newline in PR-body prose as a visible line break.
+Write each prose paragraph on one source line. Separate paragraphs with a
+blank line. Keep the prose of each list item on the same source line as its
+marker. Preserve structural newlines in code fences, tables, and nested lists.
+Do not hard-wrap paragraphs or place each sentence on its own line.
+
+STE sentence-length limits constrain sentences, not source lines. Several
+short sentences can share one paragraph line. The STE linter does not check
+GitHub rendering, so its success does not establish paragraph formatting.
+
+Run `python3 scripts/check_body.py <draft-file>` from this skill folder before
+publication. Fix every reported prose break. After publication, inspect the
+rendered body in GitHub or its `body_html` from the issues API with the
+`application/vnd.github.full+json` media type. Check that ordinary paragraphs
+and list-item prose contain no unintended `<br>` elements. A raw-body equality
+check alone does not establish the rendered result.
+
 ## Supporting material
 
 Include supporting sections only when they contain real information:
@@ -167,7 +186,8 @@ Before publication, verify that:
 - required existing content survived; and
 - the implementation trailhead remains secondary to the explanation.
 
-Run the ASD-STE100 structural linter and correct all hard violations.
+Run the ASD-STE100 structural linter and the paragraph-formatting check.
+Correct all hard violations before publication.
 
 If a PR exists, update it with `gh pr edit`. Otherwise, create it with
 `gh pr create`. Do not mutate GitHub when the user asks for a draft, comparison,
